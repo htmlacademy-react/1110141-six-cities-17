@@ -1,10 +1,10 @@
 import Main from '../../pages/main/main';
 
-type AppScreenProps = {
+type AppProps = {
   foundPlacesCount: number;
 }
 
-function App({ foundPlacesCount }: AppScreenProps): JSX.Element {
+function App({ foundPlacesCount }: AppProps): JSX.Element {
   return (
     <Main foundPlacesCount={foundPlacesCount} />
   );

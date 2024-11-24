@@ -1,10 +1,10 @@
 import PlaceCard from '../../components/place-card/place-card';
 
-type MainScreenProps = {
+type MainPageProps = {
   foundPlacesCount: number;
 };
 
-function Main({ foundPlacesCount }: MainScreenProps): JSX.Element {
+function Main({ foundPlacesCount }: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
