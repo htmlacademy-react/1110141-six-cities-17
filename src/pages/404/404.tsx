@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 function Page404(): JSX.Element {
   return (
     <div style={{ height: '100vh' }} className="page">
+      <Helmet>
+        <title>6 cities: not found</title>
+      </Helmet>
       <div className="page__main">
         <div className="page__main-container container">
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '20px', paddingTop: '100px' }} className="page__main-flex-box flex-box">

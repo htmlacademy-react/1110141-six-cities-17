@@ -6,6 +6,7 @@ import Login from '../../pages/login/login';
 import Offer from '../../pages/offer/offer';
 import PrivateRoute from '../private-route/private-route';
 import { AuthorizationStatus, AppRoute } from '../../const';
+import { HelmetProvider } from 'react-helmet-async';
 
 type AppProps = {
   foundPlacesCount: number;
@@ -13,24 +14,25 @@ type AppProps = {
 
 function App({ foundPlacesCount }: AppProps): JSX.Element {
   return (
-
-    <BrowserRouter>
-      <Routes>
-        <Route path={AppRoute.Main}>
-          <Route index element={<Main foundPlacesCount={foundPlacesCount} />} />
-          <Route path={AppRoute.Favorites}
-            element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <Favorites />
-              </PrivateRoute>
-            }
-          />
-          <Route path={AppRoute.Login} element={<Login />} />
-          <Route path={AppRoute.Offer} element={<Offer />} />
-        </Route>
-        <Route path="*" element={<Page404 />} />
-      </Routes>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path={AppRoute.Main}>
+            <Route index element={<Main foundPlacesCount={foundPlacesCount} />} />
+            <Route path={AppRoute.Favorites}
+              element={
+                <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                  <Favorites />
+                </PrivateRoute>
+              }
+            />
+            <Route path={AppRoute.Login} element={<Login />} />
+            <Route path={AppRoute.Offer} element={<Offer />} />
+          </Route>
+          <Route path="*" element={<Page404 />} />
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
