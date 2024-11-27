@@ -1,5 +1,10 @@
-const Settings = {
+export const Settings = {
   foundPlacesCount: 312,
 };
 
-export { Settings };
+export enum AppRoute {
+  Main = '/',
+  Favorites = 'favorites',
+  Login = 'login',
+  Offer = 'offer',
+}
