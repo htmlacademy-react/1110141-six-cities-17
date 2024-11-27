@@ -4,9 +4,9 @@ export const Settings = {
 
 export enum AppRoute {
   Main = '/',
-  Favorites = 'favorites',
-  Login = 'login',
-  Offer = 'offer',
+  Favorites = '/favorites',
+  Login = '/login',
+  Offer = '/offer:id',
 }
 
 export enum AuthorizationStatus {
