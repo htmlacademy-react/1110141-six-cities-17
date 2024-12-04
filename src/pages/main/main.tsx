@@ -1,12 +1,15 @@
-import PlaceCard from '../../components/place-card/place-card';
 import Logo from '../../components/logo/logo';
+import PlaceList from '../../components/places-list/place-list';
+
 import { Helmet } from 'react-helmet-async';
+import { CompactOffer } from '../../types/offers';
 
 type MainPageProps = {
   foundPlacesCount: number;
+  offers: CompactOffer[];
 };
 
-function Main({ foundPlacesCount }: MainPageProps): JSX.Element {
+function Main({ foundPlacesCount, offers }: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -111,13 +114,7 @@ function Main({ foundPlacesCount }: MainPageProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-              </div>
+              <PlaceList offers={offers} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />
