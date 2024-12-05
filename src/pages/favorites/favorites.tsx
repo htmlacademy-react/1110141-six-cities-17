@@ -1,9 +1,11 @@
 import Logo from '../../components/logo/logo';
+
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 
 import { CompactOffers } from '../../types/offers';
 
-import { convertRatingToStars } from '../../utils';
+import { convertRatingToStars, getOfferLink } from '../../utils';
 
 type FavoritesProps = {
   offers: CompactOffers;
@@ -85,7 +87,7 @@ function Favorites({ offers }: FavoritesProps): JSX.Element {
                           </div>
                         )}
                         <div className="favorites__image-wrapper place-card__image-wrapper">
-                          <a href="#">
+                          <Link to={getOfferLink(offer.id)}>
                             <img
                               className="place-card__image"
                               src={offer.previewImage}
@@ -93,7 +95,7 @@ function Favorites({ offers }: FavoritesProps): JSX.Element {
                               height={110}
                               alt="Place image"
                             />
-                          </a>
+                          </Link>
                         </div>
                         <div className="favorites__card-info place-card__info">
                           <div className="place-card__price-wrapper">
@@ -124,7 +126,9 @@ function Favorites({ offers }: FavoritesProps): JSX.Element {
                             </div>
                           </div>
                           <h2 className="place-card__name">
-                            <a href="#">{offer.title}</a>
+                            <Link to={getOfferLink(offer.id)}>
+                              {offer.title}
+                            </Link>
                           </h2>
                           <p className="place-card__type">{offer.type}</p>
                         </div>
