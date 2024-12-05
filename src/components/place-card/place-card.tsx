@@ -11,6 +11,8 @@ const MULTIPLYER_FOR_PERCANTAGE_CONVERSION = 20;
 
 type PlaceCardProps = {
   offer: CompactOffer;
+  onMouseOver: (id: string) => void;
+  onMouseOut: () => void;
 }
 
 function convertRatingToStars(rating: number) {
@@ -20,7 +22,7 @@ function convertRatingToStars(rating: number) {
   return 0;
 }
 
-function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
+function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Element {
 
   const { title, price, type, previewImage, isPremium, rating } = offer;
   const ratingStars = convertRatingToStars(rating).toString(10);
@@ -41,7 +43,11 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
   }
 
   return (
-    <article className="cities__card place-card">
+    <article
+      className="cities__card place-card"
+      onMouseOver={() => onMouseOver(offer.id)}
+      onMouseOut={onMouseOut}
+    >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
