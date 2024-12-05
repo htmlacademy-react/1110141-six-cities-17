@@ -10,11 +10,11 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { AuthorizationStatus, AppRoute } from '../../const';
 
-import type { Offers } from '../../types/offers';
+import type { CompactOffers } from '../../types/offers';
 
 type AppProps = {
   foundPlacesCount: number;
-  offers: Offers;
+  offers: CompactOffers;
 }
 
 function App({ foundPlacesCount, offers }: AppProps): JSX.Element {

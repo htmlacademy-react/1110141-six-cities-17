@@ -1,11 +1,11 @@
 import PlaceCard from '../place-card/place-card';
 
-import { CompactOffer } from '../../types/offers';
+import { CompactOffers } from '../../types/offers';
 
 import { useState } from 'react';
 
 type PlaceListProps = {
-  offers: CompactOffer[];
+  offers: CompactOffers;
 }
 
 function PlaceList({ offers }: PlaceListProps) {

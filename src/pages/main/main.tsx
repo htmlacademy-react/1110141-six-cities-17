@@ -2,11 +2,11 @@ import Logo from '../../components/logo/logo';
 import PlaceList from '../../components/places-list/place-list';
 
 import { Helmet } from 'react-helmet-async';
-import { CompactOffer } from '../../types/offers';
+import { CompactOffers } from '../../types/offers';
 
 type MainPageProps = {
   foundPlacesCount: number;
-  offers: CompactOffer[];
+  offers: CompactOffers;
 };
 
 function Main({ foundPlacesCount, offers }: MainPageProps): JSX.Element {

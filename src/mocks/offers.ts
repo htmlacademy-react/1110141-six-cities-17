@@ -1,7 +1,7 @@
-import { Offers } from '../types/offers';
+import { CompactOffers } from '../types/offers';
 import { HousingType } from '../const';
 
-export const offers: Offers = [
+export const offers: CompactOffers = [
   {
     id: '1',
     title: 'Beautiful & luxurious apartment at great location',

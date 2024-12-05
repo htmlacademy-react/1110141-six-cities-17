@@ -40,7 +40,5 @@ export type DetailedOffer = {
   maxAdults: number;
 }
 
-export type Offer = CompactOffer | DetailedOffer;
-
-export type Offers = Offer[];
-
+export type CompactOffers = CompactOffer[];
+export type DetailedOffers = DetailedOffer[];
