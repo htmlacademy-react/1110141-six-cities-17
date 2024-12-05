@@ -1,25 +1,16 @@
 import { CompactOffer } from '../../types/offers';
 
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, AppRoute } from '../../const';
 
 import { Navigate } from 'react-router-dom';
-import { AppRoute } from '../../const';
 import { useState } from 'react';
 
-/** Величина на которую нужно умножить рейтинг чтобы получить проценты */
-const MULTIPLYER_FOR_PERCANTAGE_CONVERSION = 20;
+import { convertRatingToStars } from '../..//utils';
 
 type PlaceCardProps = {
   offer: CompactOffer;
   onMouseOver: (id: string) => void;
   onMouseOut: () => void;
-}
-
-function convertRatingToStars(rating: number) {
-  if (rating) {
-    return MULTIPLYER_FOR_PERCANTAGE_CONVERSION * Math.round(rating);
-  }
-  return 0;
 }
 
 function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Element {
