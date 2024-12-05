@@ -73,7 +73,7 @@ function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Elem
           <button
             className="place-card__bookmark-button button"
             type="button"
-            onClick={() => handleBookmarkClick(AuthorizationStatus.NoAuth)}
+            onClick={() => handleBookmarkClick(AuthorizationStatus.Auth)}
           >
             <svg
               className="place-card__bookmark-icon"
