@@ -19,7 +19,7 @@ function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Elem
   const ratingStars = convertRatingToStars(rating).toString(10);
   const offerLink = getOfferLink(id);
 
-  const [redirect, setRedirect] = useState(false);
+  const [redirect, setRedirect] = useState<boolean>(false);
 
   function handleBookmarkClick(authorizationStatus: string) {
     if (!Object.values(AuthorizationStatus).includes(authorizationStatus as AuthorizationStatus)) {
