@@ -27,7 +27,7 @@ function App({ foundPlacesCount, offers }: AppProps): JSX.Element {
             <Route path={AppRoute.Favorites}
               element={
                 <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                  <Favorites />
+                  <Favorites offers={offers} />
                 </PrivateRoute>
               }
             />

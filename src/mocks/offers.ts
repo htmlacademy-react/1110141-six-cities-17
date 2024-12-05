@@ -97,8 +97,8 @@ export const offers: CompactOffers = [
   {
     id: '5',
     title: 'Wood and stone place',
-    type: HousingType.Room,
-    price: 80,
+    type: HousingType.Apartment,
+    price: 100,
     city: {
       name: 'Cologne',
       location: {
@@ -114,7 +114,7 @@ export const offers: CompactOffers = [
     },
     isFavorite: true,
     isPremium: false,
-    rating: 4,
+    rating: 4.5,
     previewImage: 'img/room.jpg',
   },
 ];
