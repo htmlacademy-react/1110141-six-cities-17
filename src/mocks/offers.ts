@@ -100,7 +100,7 @@ export const offers: CompactOffers = [
     type: HousingType.Room,
     price: 80,
     city: {
-      name: 'Amsterdam',
+      name: 'Cologne',
       location: {
         latitude: 52.38333,
         longitude: 4.9,
