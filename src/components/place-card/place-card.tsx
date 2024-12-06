@@ -2,9 +2,7 @@ import { CompactOffer } from '../../types/offers';
 
 import { AuthorizationStatus, AppRoute } from '../../const';
 
-import { Link, Navigate } from 'react-router-dom';
-import { useState } from 'react';
-
+import { Link, useNavigate } from 'react-router-dom';
 import { convertRatingToStars, getOfferLink } from '../../utils';
 
 type PlaceCardProps = {
@@ -18,22 +16,16 @@ function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Elem
   const { title, price, type, previewImage, isPremium, rating, id } = offer;
   const ratingStars = convertRatingToStars(rating).toString(10);
   const offerLink = getOfferLink(id);
-
-  const [redirect, setRedirect] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   function handleBookmarkClick(authorizationStatus: string) {
     if (!Object.values(AuthorizationStatus).includes(authorizationStatus as AuthorizationStatus)) {
       return null;
     }
     if ((authorizationStatus as AuthorizationStatus) !== AuthorizationStatus.Auth) {
-      setRedirect(true);
+      navigate(AppRoute.Login)
     }
   }
-
-  if (redirect) {
-    return <Navigate to={AppRoute.Login} />;
-  }
-
   return (
     <article
       className="cities__card place-card"
