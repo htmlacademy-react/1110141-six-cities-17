@@ -23,7 +23,7 @@ function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Elem
       return null;
     }
     if ((authorizationStatus as AuthorizationStatus) !== AuthorizationStatus.Auth) {
-      navigate(AppRoute.Login)
+      navigate(AppRoute.Login);
     }
   }
   return (

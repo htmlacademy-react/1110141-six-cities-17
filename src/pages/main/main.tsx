@@ -1,7 +1,12 @@
 import Logo from '../../components/logo/logo';
 import PlaceList from '../../components/places-list/place-list';
+import Map from '../../components/map/map';
 
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
+
+import { AMSTERDAM } from '../../mocks/cities';
+
 import { CompactOffers } from '../../types/offers';
 
 type MainPageProps = {
@@ -10,6 +15,16 @@ type MainPageProps = {
 };
 
 function Main({ foundPlacesCount, offers }: MainPageProps): JSX.Element {
+
+  const [cardActive, setCardActive] = useState<string | null>(null);
+
+  function handleMouseOver(id: string) {
+    setCardActive(id);
+  }
+  function handleMouseout() {
+    setCardActive(null);
+  }
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -114,10 +129,10 @@ function Main({ foundPlacesCount, offers }: MainPageProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <PlaceList offers={offers} />
+              <PlaceList offers={offers} handleMouseOver={handleMouseOver} handleMouseout={handleMouseout} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map city={AMSTERDAM} offers={offers} cardActive={cardActive} />
             </div>
           </div>
         </div>
