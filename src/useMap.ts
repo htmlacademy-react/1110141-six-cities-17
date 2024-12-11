@@ -5,7 +5,7 @@ import leaflet from 'leaflet';
 import { City } from './types/cities';
 
 type UseMapProps = {
-  mapRef: MutableRefObject<HTMLSelectElement | null>;
+  mapRef: MutableRefObject<HTMLElement | null>;
   city: City;
 }
 
@@ -35,10 +35,6 @@ function useMap({ mapRef, city }: UseMapProps) {
       setMap(mapInstance);
       isRenderedRef.current = true;
     }
-
-    return () => {
-      isRenderedRef.current = false;
-    };
   }, [mapRef, city]);
 
   return map;
