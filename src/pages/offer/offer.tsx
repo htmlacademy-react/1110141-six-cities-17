@@ -1,15 +1,25 @@
 import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
-
-import { reviews } from '../../mocks/reviews';
-
-import { Helmet } from 'react-helmet-async';
-
-import { FormEvent, useState } from 'react';
+import Map from '../../components/map/map';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import ReviewsTitle from '../../components/reviews-title/reviews-title';
 
+import { reviews } from '../../mocks/reviews';
+import { offers, neighbourhoodOffers } from '../../mocks/offers';
+
+import { Helmet } from 'react-helmet-async';
+
+import { useParams } from 'react-router-dom';
+
+import { FormEvent, useState } from 'react';
+
+import { City } from '../../types/offers';
+
 function Offer(): JSX.Element {
+  const { id } = useParams<{ id: string }>();
+  const currentOffer = offers.find((offer) => offer.id === id);
+  const city = currentOffer?.city as City;
+  const cardActive = id as string;
 
   type FormDataState = {
     'review': string | null;
@@ -212,7 +222,7 @@ function Offer(): JSX.Element {
               </section>
             </div>
           </div>
-          <section className="offer__map map" />
+          <Map city={city} offers={neighbourhoodOffers} cardActive={cardActive} mapClassName='offer__map map' mapHeight='570px' />
         </section>
         <div className="container">
           <section className="near-places places">

@@ -132,7 +132,7 @@ function Main({ foundPlacesCount, offers }: MainPageProps): JSX.Element {
               <PlaceList offers={offers} handleMouseOver={handleMouseOver} handleMouseout={handleMouseout} />
             </section>
             <div className="cities__right-section">
-              <Map city={AMSTERDAM} offers={offers} cardActive={cardActive} mapClassName='cities__map map' />
+              <Map city={AMSTERDAM} offers={offers} cardActive={cardActive} mapClassName='cities__map map' mapHeight='100%' />
             </div>
           </div>
         </div>
