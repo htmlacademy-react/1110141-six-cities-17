@@ -1,4 +1,4 @@
-import { CompactOffers, DetailedOffers } from '../types/offers';
+import { CompactOffers } from '../types/offers';
 import { HousingType } from '../const';
 
 export const offers: CompactOffers = [

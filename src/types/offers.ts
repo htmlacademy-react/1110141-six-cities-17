@@ -30,8 +30,7 @@ export type CompactOffer = {
   previewImage: string;
 }
 
-export type DetailedOffer = {
-  offer: CompactOffer;
+export type DetailedOffer = CompactOffer & {
   description: string;
   bedrooms: number;
   goods: string[];
