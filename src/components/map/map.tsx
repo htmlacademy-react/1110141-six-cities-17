@@ -14,9 +14,10 @@ type MapProps = {
   city: City;
   offers: CompactOffer[];
   cardActive: string | null;
+  mapClassName: string;
 }
 
-function Map({ city, offers, cardActive }: MapProps): JSX.Element {
+function Map({ city, offers, cardActive, mapClassName }: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap({ mapRef, city });
@@ -74,8 +75,8 @@ function Map({ city, offers, cardActive }: MapProps): JSX.Element {
 
   return (
     <section
-      className="cities__map map"
-      style={{ height: '600px' }}
+      className={mapClassName}
+      style={{ height: '100%' }}
       ref={mapRef}
     >
 
