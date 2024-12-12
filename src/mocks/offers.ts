@@ -124,7 +124,7 @@ export const neighbourhoodOffers: CompactOffers = [
     id: '4',
     title: 'Nice, cozy, warm big bed apartment',
     type: HousingType.Apartment,
-    price: 180,
+    price: 185,
     city: {
       name: 'Amsterdam',
       location: {
