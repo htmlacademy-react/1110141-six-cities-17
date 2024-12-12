@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 
 import { useMap } from '../../useMap';
 
-import { City } from '../../types/cities';
+import { City } from '../../types/offers';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import { CompactOffer } from '../../types/offers';
 
