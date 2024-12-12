@@ -6,7 +6,7 @@ type Location = {
   zoom: number;
 }
 
-type City = {
+export type City = {
   name: string;
   location: Location;
 }
@@ -30,8 +30,7 @@ export type CompactOffer = {
   previewImage: string;
 }
 
-export type DetailedOffer = {
-  offer: CompactOffer;
+export type DetailedOffer = CompactOffer & {
   description: string;
   bedrooms: number;
   goods: string[];

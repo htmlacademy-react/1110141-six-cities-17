@@ -7,8 +7,8 @@ import { convertRatingToStars, getOfferLink } from '../../utils';
 
 type PlaceCardProps = {
   offer: CompactOffer;
-  onMouseOver: (id: string) => void;
-  onMouseOut: () => void;
+  onMouseOver?: (id: string) => void;
+  onMouseOut?: () => void;
 }
 
 function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Element {
@@ -29,8 +29,8 @@ function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Elem
   return (
     <article
       className="cities__card place-card"
-      onMouseOver={() => onMouseOver(offer.id)}
-      onMouseOut={onMouseOut}
+      onMouseOver={() => onMouseOver?.(offer.id)}
+      onMouseOut={() => onMouseOut?.()}
     >
       {isPremium && (
         <div className="place-card__mark">

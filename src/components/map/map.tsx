@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 
 import { useMap } from '../../useMap';
 
-import { City } from '../../types/cities';
+import { City } from '../../types/offers';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import { CompactOffer } from '../../types/offers';
 
@@ -14,9 +14,11 @@ type MapProps = {
   city: City;
   offers: CompactOffer[];
   cardActive: string | null;
+  mapClassName: string;
+  mapHeight: string;
 }
 
-function Map({ city, offers, cardActive }: MapProps): JSX.Element {
+function Map({ city, offers, cardActive, mapClassName, mapHeight }: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap({ mapRef, city });
@@ -74,8 +76,8 @@ function Map({ city, offers, cardActive }: MapProps): JSX.Element {
 
   return (
     <section
-      className="cities__map map"
-      style={{ height: '600px' }}
+      className={mapClassName}
+      style={{ height: mapHeight }}
       ref={mapRef}
     >
 
