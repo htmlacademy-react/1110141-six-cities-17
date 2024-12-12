@@ -13,13 +13,17 @@ import { useParams } from 'react-router-dom';
 
 import { FormEvent, useState } from 'react';
 
-import { City } from '../../types/offers';
+import { City, CompactOffer } from '../../types/offers';
 
 function Offer(): JSX.Element {
   const { id } = useParams<{ id: string }>();
   const currentOffer = offers.find((offer) => offer.id === id);
   const city = currentOffer?.city as City;
   const cardActive = id as string;
+
+  neighbourhoodOffers.push(currentOffer as CompactOffer);
+
+  const offersForMap = neighbourhoodOffers;
 
   type FormDataState = {
     'review': string | null;
@@ -222,7 +226,7 @@ function Offer(): JSX.Element {
               </section>
             </div>
           </div>
-          <Map city={city} offers={neighbourhoodOffers} cardActive={cardActive} mapClassName='offer__map map' mapHeight='570px' />
+          <Map city={city} offers={offersForMap} cardActive={cardActive} mapClassName='offer__map map' mapHeight='570px' />
         </section>
         <div className="container">
           <section className="near-places places">
