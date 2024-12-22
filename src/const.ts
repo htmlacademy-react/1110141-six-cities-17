@@ -1,7 +1,3 @@
-export const Settings = {
-  foundPlacesCount: 312,
-};
-
 export enum AppRoute {
   Main = '/',
   Favorites = '/favorites',

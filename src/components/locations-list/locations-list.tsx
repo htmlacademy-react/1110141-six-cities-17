@@ -4,8 +4,10 @@ import { changeCity, changeOffersByCity } from '../../store/actions';
 
 import { store } from '../../store';
 
+import { useAppDispatch } from '../../hooks';
 
 function LocationsList() {
+  const dispatch = useAppDispatch();
 
   const ACTIVE_CLASS = 'tabs__item--active';
   const storageCity = store.getState().city;
@@ -15,8 +17,6 @@ function LocationsList() {
 
     const clickedElement = event.target as HTMLLIElement;
     const isSpan = clickedElement.tagName === 'SPAN';
-
-    /** Тут идёт предположение, что таргетом клика был любой ДОЧЕРНИЙ элемент li.locations__item */
     const isLink = clickedElement.tagName === 'A';
 
     if (isSpan || isLink) {
@@ -36,8 +36,8 @@ function LocationsList() {
       /** Если они не равны - осуществляет диспатч */
       if (cityTitle && (previousCity as { city: Cities }).city !== cityTitle) {
         if (Object.values(Cities).includes(cityTitle)) {
-          store.dispatch(changeCity(cityTitle));
-          store.dispatch(changeOffersByCity());
+          dispatch(changeCity(cityTitle));
+          dispatch(changeOffersByCity());
         }
 
         /** Убирает класс "активности" у текущего "активного" элемента, если таковой имеется */

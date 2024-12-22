@@ -7,17 +7,13 @@ import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 
 import { AMSTERDAM } from '../../mocks/cities';
+import { useAppSelector } from '../../hooks';
 
-import { CompactOffers } from '../../types/offers';
 
-type MainPageProps = {
-  foundPlacesCount: number;
-  offers: CompactOffers;
-};
-
-function Main({ foundPlacesCount, offers }: MainPageProps): JSX.Element {
-
+function Main(): JSX.Element {
   const [cardActive, setCardActive] = useState<string | null>(null);
+  const offers = useAppSelector((state) => state.offers);
+  const foundPlacesCount = offers.length;
 
   function handleMouseOver(id: string) {
     setCardActive(id);

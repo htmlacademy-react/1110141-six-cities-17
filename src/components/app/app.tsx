@@ -13,17 +13,16 @@ import { AuthorizationStatus, AppRoute } from '../../const';
 import type { CompactOffers } from '../../types/offers';
 
 type AppProps = {
-  foundPlacesCount: number;
   offers: CompactOffers;
 }
 
-function App({ foundPlacesCount, offers }: AppProps): JSX.Element {
+function App({ offers }: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route path={AppRoute.Main}>
-            <Route index element={<Main foundPlacesCount={foundPlacesCount} offers={offers} />} />
+            <Route index element={<Main />} />
             <Route path={AppRoute.Favorites}
               element={
                 <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
