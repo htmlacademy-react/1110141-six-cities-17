@@ -8,6 +8,7 @@ import { store } from '../../store';
 function LocationsList() {
 
   const ACTIVE_CLASS = 'tabs__item--active';
+  const storageCity = store.getState().city;
 
   function handleClick(event: React.MouseEvent<HTMLLIElement>) {
     event.preventDefault();
@@ -52,7 +53,7 @@ function LocationsList() {
       {
         Object.values(Cities).map((city) => (
           <li key={city} className="locations__item" onClick={handleClick}>
-            <a className="locations__item-link tabs__item" href="#">
+            <a className={`locations__item-link tabs__item ${city === storageCity ? ACTIVE_CLASS : ''}`} href="#">
               <span>{city}</span>
             </a>
           </li>
