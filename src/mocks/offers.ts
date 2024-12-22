@@ -117,6 +117,75 @@ export const offers: CompactOffers = [
     rating: 4.5,
     previewImage: 'img/room.jpg',
   },
+  {
+    id: '6',
+    title: 'Test Paris №1',
+    type: HousingType.Apartment,
+    price: 120,
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 52.38333,
+        longitude: 4.9,
+        zoom: 10,
+      },
+    },
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 10,
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 4,
+    previewImage: 'img/apartment-02.jpg',
+  },
+  {
+    id: '7',
+    title: 'Test Paris №2',
+    type: HousingType.Apartment,
+    price: 90,
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 52.38333,
+        longitude: 4.9,
+        zoom: 10,
+      },
+    },
+    location: {
+      latitude: 52.4909553943508,
+      longitude: 4.65309666406198,
+      zoom: 10,
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 5,
+    previewImage: 'img/apartment-03.jpg',
+  },
+  {
+    id: '8',
+    title: 'Test Paris №3',
+    type: HousingType.Apartment,
+    price: 130,
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 52.38333,
+        longitude: 4.9,
+        zoom: 10,
+      },
+    },
+    location: {
+      latitude: 52.5909553943508,
+      longitude: 4.95309666406198,
+      zoom: 10,
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 5,
+    previewImage: 'img/studio-01.jpg',
+  },
 ];
 
 export const neighbourhoodOffers: CompactOffers = [
