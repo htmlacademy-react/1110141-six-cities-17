@@ -184,7 +184,7 @@ export const offers: CompactOffers = [
     isFavorite: false,
     isPremium: true,
     rating: 5,
-    previewImage: 'img/studio-01.jpg',
+    previewImage: 'img/apartment-01.jpg',
   },
 ];
 
