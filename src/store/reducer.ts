@@ -1,9 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit';
+
 import { offers } from '../mocks/offers';
+
 import { Cities, SortTypes } from '../const';
+
 import { changeActiveSort, changeCity, changeOffersByCity } from './actions';
 
-const initialState = {
+import { CompactOffers } from '../types/offers';
+import { SortElement } from '../types/sort';
+
+type InitialState = {
+  city: Cities;
+  offers: CompactOffers;
+  sort: SortElement[];
+}
+
+const initialState: InitialState = {
   city: Cities.Paris,
   offers: offers.filter((offer) => offer.city.name as Cities === Cities.Paris),
   sort: [
