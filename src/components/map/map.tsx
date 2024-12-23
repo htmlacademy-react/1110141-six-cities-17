@@ -31,14 +31,14 @@ function Map({ city, offers, cardActive, mapClassName, mapHeight }: MapProps): J
   if (!defaultIconRef.current || !currentIconRef.current) {
     defaultIconRef.current = leaflet.icon({
       iconUrl: URL_MARKER_DEFAULT,
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
+      iconSize: [27, 39],
+      iconAnchor: [27, 39],
     });
 
     currentIconRef.current = leaflet.icon({
       iconUrl: URL_MARKER_CURRENT,
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
+      iconSize: [27, 39],
+      iconAnchor: [27, 39],
     });
   }
 
