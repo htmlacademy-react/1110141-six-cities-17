@@ -2,9 +2,9 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { offers } from '../mocks/offers';
 
-import { Cities, SortTypes } from '../const';
+import { AuthorizationStatus, Cities, SortTypes } from '../const';
 
-import { changeActiveSort, changeCity, changeOffersByCity, loadOffers } from './actions';
+import { changeActiveSort, changeCity, changeOffersByCity, loadOffers, requireAuthorization } from './actions';
 
 import { CompactOffers } from '../types/offers';
 import { SortElement } from '../types/sort';
@@ -13,6 +13,7 @@ type InitialState = {
   city: Cities;
   offers: CompactOffers;
   sort: SortElement[];
+  authorizationStatus: AuthorizationStatus;
 }
 
 const initialState: InitialState = {
@@ -36,6 +37,7 @@ const initialState: InitialState = {
       'isActive': false,
     },
   ],
+  authorizationStatus: AuthorizationStatus.Unknown
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -56,5 +58,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload
     });
 });
