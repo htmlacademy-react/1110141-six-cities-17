@@ -4,7 +4,7 @@ import { offers } from '../mocks/offers';
 
 import { Cities, SortTypes } from '../const';
 
-import { changeActiveSort, changeCity, changeOffersByCity } from './actions';
+import { changeActiveSort, changeCity, changeOffersByCity, loadOffers } from './actions';
 
 import { CompactOffers } from '../types/offers';
 import { SortElement } from '../types/sort';
@@ -53,5 +53,8 @@ export const reducer = createReducer(initialState, (builder) => {
       state.sort.map((item) => {
         item.isActive = item.title === currentSort;
       });
+    })
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
     });
 });
