@@ -1,7 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { offers } from '../mocks/offers';
-
 import { AuthorizationStatus, Cities, SortTypes } from '../const';
 
 import { changeActiveSort, changeCity, changeOffersByCity, loadOffers, requireAuthorization } from './actions';
@@ -18,7 +16,7 @@ type InitialState = {
 
 const initialState: InitialState = {
   city: Cities.Paris,
-  offers: offers.filter((offer) => offer.city.name as Cities === Cities.Paris),
+  offers: [],
   sort: [
     {
       'title': SortTypes.Popular,
@@ -60,6 +58,6 @@ export const reducer = createReducer(initialState, (builder) => {
       state.offers = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
-      state.authorizationStatus = action.payload
+      state.authorizationStatus = action.payload;
     });
 });
