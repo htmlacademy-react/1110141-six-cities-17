@@ -11,12 +11,11 @@ export const store = configureStore(
   {
     reducer: reducer,
     /** Добавляет middleware и конфигурирует redux thunk передавая ему экземпляр axios */
-    middleware: (getDefaultMiddleware) => {
-      return getDefaultMiddleware({
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
         thunk: {
           extraArgument: api,
-        }
-      });
-    }
+        },
+      })
   }
 );
