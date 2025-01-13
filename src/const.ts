@@ -36,3 +36,11 @@ export enum SortTypes {
   PriceToLow = 'Price: high to low',
   Top = 'Top rated first',
 }
+
+export const enum APIRoutes {
+  Offers = '/offers',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
+}
