@@ -4,14 +4,17 @@ import { AppDispatch, State } from '../types/state';
 import { CompactOffers, offerId } from '../types/offers';
 import { Comments } from '../types/comments';
 import { AuthData } from '../types/authData';
+import { UserData } from '../types/userData';
 
 import { AxiosInstance } from 'axios';
 
-import { APIRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 
-import { loadComments, loadOffers, requireAuthorization } from './actions';
+import { loadComments, loadOffers, requireAuthorization, setError } from './actions';
+
 import { dropToken, saveToken } from '../services/token';
-import { UserData } from '../types/userData';
+
+import { store } from '../store';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -73,4 +76,13 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
+);
+
+export const clearErrorAction = createAsyncThunk(
+  'app/clearError',
+  () => {
+    setTimeout(
+      () => store.dispatch(setError(null)),
+      TIMEOUT_SHOW_ERROR);
+  }
 );
