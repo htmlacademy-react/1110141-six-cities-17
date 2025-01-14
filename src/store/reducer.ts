@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { AuthorizationStatus, Cities, SortTypes } from '../const';
 
-import { changeActiveSort, changeCity, changeOffersByCity, loadComments, loadOffers, requireAuthorization } from './actions';
+import { changeActiveSort, changeCity, changeOffersByCity, loadComments, loadOffers, requireAuthorization, setError } from './actions';
 
 import { CompactOffers } from '../types/offers';
 import { SortElement } from '../types/sort';
@@ -14,6 +14,7 @@ type InitialState = {
   sort: SortElement[];
   authorizationStatus: AuthorizationStatus;
   comments: Comments;
+  error: string | null;
 }
 
 const initialState: InitialState = {
@@ -39,6 +40,7 @@ const initialState: InitialState = {
   ],
   authorizationStatus: AuthorizationStatus.Unknown,
   comments: [],
+  error: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -65,5 +67,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
     });
 });

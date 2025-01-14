@@ -9,3 +9,4 @@ export const changeActiveSort = createAction<SortTypes>('app/changeActiveSort');
 export const loadOffers = createAction<CompactOffers>('data/loadOffers');
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 export const loadComments = createAction<Comments>('comments/loadComments');
+export const setError = createAction<string | null>('app/setError');
