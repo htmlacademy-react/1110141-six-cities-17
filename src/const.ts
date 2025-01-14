@@ -37,7 +37,7 @@ export enum SortTypes {
   Top = 'Top rated first',
 }
 
-export const enum APIRoutes {
+export const enum APIRoute {
   Offers = '/offers',
   Favorite = '/favorite',
   Comments = '/comments',

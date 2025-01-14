@@ -49,7 +49,7 @@ export const reducer = createReducer(initialState, (builder) => {
     }
   })
     .addCase(changeOffersByCity, (state) => {
-      state.offers = offers.filter((offer) => offer.city.name as Cities === state.city);
+      state.offers = state.offers.filter((offer) => offer.city.name as Cities === state.city);
     })
     .addCase(changeActiveSort, (state, action) => {
       const currentSort = action.payload;
