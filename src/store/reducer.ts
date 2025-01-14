@@ -2,16 +2,18 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { AuthorizationStatus, Cities, SortTypes } from '../const';
 
-import { changeActiveSort, changeCity, changeOffersByCity, loadOffers, requireAuthorization } from './actions';
+import { changeActiveSort, changeCity, changeOffersByCity, loadComments, loadOffers, requireAuthorization } from './actions';
 
 import { CompactOffers } from '../types/offers';
 import { SortElement } from '../types/sort';
+import { Comments } from '../types/comments';
 
 type InitialState = {
   city: Cities;
   offers: CompactOffers;
   sort: SortElement[];
   authorizationStatus: AuthorizationStatus;
+  comments: Comments;
 }
 
 const initialState: InitialState = {
@@ -35,7 +37,8 @@ const initialState: InitialState = {
       'isActive': false,
     },
   ],
-  authorizationStatus: AuthorizationStatus.Unknown
+  authorizationStatus: AuthorizationStatus.Unknown,
+  comments: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -59,5 +62,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
     });
 });
