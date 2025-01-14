@@ -41,4 +41,3 @@ export type DetailedOffer = CompactOffer & {
 
 export type CompactOffers = CompactOffer[];
 export type DetailedOffers = DetailedOffer[];
-export type Offers = CompactOffers | DetailedOffers;
