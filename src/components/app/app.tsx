@@ -10,13 +10,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { AuthorizationStatus, AppRoute } from '../../const';
 
-import type { CompactOffers } from '../../types/offers';
-
-type AppProps = {
-  offers: CompactOffers;
-}
-
-function App({ offers }: AppProps): JSX.Element {
+function App(): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -26,7 +20,7 @@ function App({ offers }: AppProps): JSX.Element {
             <Route path={AppRoute.Favorites}
               element={
                 <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                  <Favorites offers={offers} />
+                  <Favorites />
                 </PrivateRoute>
               }
             />
