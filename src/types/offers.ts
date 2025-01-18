@@ -1,4 +1,4 @@
-import { HousingType } from '../const';
+import { Cities, HousingType } from '../const';
 
 export type offerId = string;
 
@@ -9,7 +9,7 @@ type Location = {
 }
 
 export type City = {
-  name: string;
+  name: Cities;
   location: Location;
 }
 
