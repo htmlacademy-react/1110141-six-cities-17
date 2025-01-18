@@ -69,7 +69,7 @@ function Main(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{foundPlacesCount} places to stay in Amsterdam</b>
+              <b className="places__found">{foundPlacesCount} places to stay in {useAppSelector((store) => store.city)}</b>
               <PlacesSorting />
               <PlaceList offers={offers} handleMouseOver={handleMouseOver} handleMouseout={handleMouseout} />
             </section>
