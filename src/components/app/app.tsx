@@ -9,8 +9,19 @@ import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { AuthorizationStatus, AppRoute } from '../../const';
+import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function App(): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
     <HelmetProvider>
       <BrowserRouter>

@@ -1,6 +1,6 @@
 import { Cities } from '../../const';
 
-import { changeCity, changeOffersByCity } from '../../store/actions';
+import { changeCity } from '../../store/actions';
 
 import { store } from '../../store';
 
@@ -37,7 +37,6 @@ function LocationsList() {
       if (cityTitle && previousCity !== cityTitle) {
         if (Object.values(Cities).includes(cityTitle)) {
           dispatch(changeCity(cityTitle));
-          dispatch(changeOffersByCity());
         }
 
         /** Убирает класс "активности" у текущего "активного" элемента, если таковой имеется */

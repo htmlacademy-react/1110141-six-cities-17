@@ -10,7 +10,7 @@ import { AxiosInstance } from 'axios';
 
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 
-import { loadComments, loadOffers, requireAuthorization, setError } from './actions';
+import { loadComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus } from './actions';
 
 import { dropToken, saveToken } from '../services/token';
 
@@ -23,7 +23,9 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchOffers',
   async (_arg, { dispatch, extra: api }) => {
+    dispatch(setOffersDataLoadingStatus(true));
     const { data } = await api.get<CompactOffers>(APIRoute.Offers);
+    dispatch(setOffersDataLoadingStatus(false));
     dispatch(loadOffers(data));
   },
 );
