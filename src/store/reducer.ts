@@ -1,23 +1,26 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { offers } from '../mocks/offers';
+import { AuthorizationStatus, Cities, SortTypes } from '../const';
 
-import { Cities, SortTypes } from '../const';
-
-import { changeActiveSort, changeCity, changeOffersByCity } from './actions';
+import { changeActiveSort, changeCity, loadComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus } from './actions';
 
 import { CompactOffers } from '../types/offers';
 import { SortElement } from '../types/sort';
+import { Comments } from '../types/comments';
 
 type InitialState = {
   city: Cities;
   offers: CompactOffers;
   sort: SortElement[];
+  authorizationStatus: AuthorizationStatus;
+  comments: Comments;
+  error: string | null;
+  isOffersDataLoading: boolean;
 }
 
 const initialState: InitialState = {
   city: Cities.Paris,
-  offers: offers.filter((offer) => offer.city.name as Cities === Cities.Paris),
+  offers: [],
   sort: [
     {
       'title': SortTypes.Popular,
@@ -36,6 +39,10 @@ const initialState: InitialState = {
       'isActive': false,
     },
   ],
+  authorizationStatus: AuthorizationStatus.Unknown,
+  comments: [],
+  error: null,
+  isOffersDataLoading: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -45,13 +52,25 @@ export const reducer = createReducer(initialState, (builder) => {
       state.city = payload;
     }
   })
-    .addCase(changeOffersByCity, (state) => {
-      state.offers = offers.filter((offer) => offer.city.name as Cities === state.city);
-    })
     .addCase(changeActiveSort, (state, action) => {
       const currentSort = action.payload;
       state.sort.map((item) => {
         item.isActive = item.title === currentSort;
       });
+    })
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
     });
 });

@@ -1,6 +1,6 @@
 import { Cities } from '../../const';
 
-import { changeCity, changeOffersByCity } from '../../store/actions';
+import { changeCity } from '../../store/actions';
 
 import { store } from '../../store';
 
@@ -24,20 +24,19 @@ function LocationsList() {
       const locationsLink = isSpan ? clickedElement.closest('.locations__item-link') : clickedElement;
       const itemSpan = isSpan ? clickedElement : locationsLink?.querySelector('span');
 
-      /** Проверяет, содержат ли переменные то, что ожидается (a и span) */
+      /** Проверяет, содержат ли переменные то, что ожидается (a или span) */
       if (!(locationsLink instanceof HTMLAnchorElement) || (!(itemSpan instanceof HTMLSpanElement))) {
         return;
       }
 
       /** Получает текущее значение города и предыдущее */
       const cityTitle = itemSpan.textContent as Cities;
-      const previousCity = store.getState();
+      const previousCity = store.getState().city;
 
       /** Если они не равны - осуществляет диспатч */
-      if (cityTitle && (previousCity as { city: Cities }).city !== cityTitle) {
+      if (cityTitle && previousCity !== cityTitle) {
         if (Object.values(Cities).includes(cityTitle)) {
           dispatch(changeCity(cityTitle));
-          dispatch(changeOffersByCity());
         }
 
         /** Убирает класс "активности" у текущего "активного" элемента, если таковой имеется */

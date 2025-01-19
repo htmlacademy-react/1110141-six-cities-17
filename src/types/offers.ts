@@ -1,4 +1,6 @@
-import { HousingType } from '../const';
+import { Cities, HousingType } from '../const';
+
+export type offerId = string;
 
 type Location = {
   latitude: number;
@@ -7,7 +9,7 @@ type Location = {
 }
 
 export type City = {
-  name: string;
+  name: Cities;
   location: Location;
 }
 
@@ -18,7 +20,7 @@ type Host = {
 }
 
 export type CompactOffer = {
-  id: string;
+  id: offerId;
   title: string;
   type: HousingType;
   price: number;

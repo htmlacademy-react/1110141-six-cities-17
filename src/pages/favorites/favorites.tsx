@@ -6,16 +6,15 @@ import { Link } from 'react-router-dom';
 import { CompactOffers } from '../../types/offers';
 
 import { convertRatingToStars, getOfferLink } from '../../utils';
-
-type FavoritesProps = {
-  offers: CompactOffers;
-}
+import { useAppSelector } from '../../hooks';
 
 type SortedOffers = {
   [key: string]: CompactOffers;
 }
 
-function Favorites({ offers }: FavoritesProps): JSX.Element {
+function Favorites(): JSX.Element {
+
+  const offers = useAppSelector((state) => state.offers);
 
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
   const sortedOffers: SortedOffers = {};

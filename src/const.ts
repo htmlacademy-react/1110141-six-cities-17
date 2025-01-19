@@ -1,3 +1,5 @@
+export const TIMEOUT_SHOW_ERROR = 2000;
+
 export enum AppRoute {
   Main = '/',
   Favorites = '/favorites',
@@ -24,7 +26,8 @@ export const URL_MARKER_CURRENT = './img/pin-active.svg';
 
 export enum Cities {
   Paris = 'Paris',
-  Cologne = 'Brussels',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
   Amsterdam = 'Amsterdam',
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf',
@@ -35,4 +38,12 @@ export enum SortTypes {
   PriceToHigh = 'Price: low to high',
   PriceToLow = 'Price: high to low',
   Top = 'Top rated first',
+}
+
+export const enum APIRoute {
+  Offers = '/offers',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
 }

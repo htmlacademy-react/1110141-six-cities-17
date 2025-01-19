@@ -6,7 +6,7 @@ import ReviewsTitle from '../../components/reviews-title/reviews-title';
 import PlaceCard from '../../components/place-card/place-card';
 
 import { reviews } from '../../mocks/reviews';
-import { offers, neighbourhoodOffers } from '../../mocks/offers';
+import { neighbourhoodOffers } from '../../mocks/offers';
 
 import { Helmet } from 'react-helmet-async';
 
@@ -15,9 +15,11 @@ import { useParams } from 'react-router-dom';
 import { FormEvent, useState } from 'react';
 
 import { City, CompactOffer } from '../../types/offers';
+import { useAppSelector } from '../../hooks';
 
 function Offer(): JSX.Element {
   const { id } = useParams<{ id: string }>();
+  const offers = useAppSelector((store) => store.offers);
   const currentOffer = offers.find((offer) => offer.id === id);
   const city = currentOffer?.city as City;
   const cardActive = id as string;
