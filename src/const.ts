@@ -26,7 +26,8 @@ export const URL_MARKER_CURRENT = './img/pin-active.svg';
 
 export enum Cities {
   Paris = 'Paris',
-  Cologne = 'Brussels',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
   Amsterdam = 'Amsterdam',
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf',
