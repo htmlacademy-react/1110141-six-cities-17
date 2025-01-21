@@ -2,6 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { AuthorizationStatus, Cities, SortTypes } from '../const';
 import { CompactOffers } from '../types/offers';
 import { Comments } from '../types/comments';
+import { UserData } from '../types/userData';
 
 export const changeCity = createAction<Cities>('app/changeCity');
 export const changeActiveSort = createAction<SortTypes>('app/changeActiveSort');
@@ -10,3 +11,4 @@ export const requireAuthorization = createAction<AuthorizationStatus>('user/requ
 export const loadComments = createAction<Comments>('comments/loadComments');
 export const setError = createAction<string | null>('app/setError');
 export const setOffersDataLoadingStatus = createAction<boolean>('data/setOffersDataLoadingStatus');
+export const setUserData = createAction<UserData | null>('user/setUserData');
