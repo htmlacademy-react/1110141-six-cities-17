@@ -5,7 +5,7 @@ import Logo from '../logo/logo';
 import { Link } from 'react-router-dom';
 
 type HeaderProps = {
-  isShortHeader: boolean | undefined;
+  isShortHeader?: boolean | undefined;
 }
 
 function Header({ isShortHeader }: HeaderProps): JSX.Element {
@@ -31,7 +31,11 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
                           className="header__nav-link header__nav-link--profile"
                           href="#"
                         >
-                          <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                          <div
+                            className="header__avatar-wrapper user__avatar-wrapper"
+                            style={{ backgroundImage: userData?.avatarUrl }}
+                          >
+                          </div>
                           <span className="header__user-name user__name">
                             {userData?.email}
                           </span>
