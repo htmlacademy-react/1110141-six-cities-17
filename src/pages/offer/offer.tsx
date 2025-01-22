@@ -1,4 +1,3 @@
-import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
 import ReviewsList from '../../components/reviews-list/reviews-list';
