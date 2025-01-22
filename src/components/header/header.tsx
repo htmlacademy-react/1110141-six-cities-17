@@ -11,6 +11,7 @@ type HeaderProps = {
 function Header({ isShortHeader }: HeaderProps): JSX.Element {
   const authorizationStatus = useAppSelector((store) => store.authorizationStatus);
   const userData = useAppSelector((state) => state.userData);
+
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
@@ -33,7 +34,7 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
                         >
                           <div
                             className="header__avatar-wrapper user__avatar-wrapper"
-                            style={{ backgroundImage: userData?.avatarUrl }}
+                            style={{ backgroundImage: `url(${userData?.avatarUrl})` }}
                           >
                           </div>
                           <span className="header__user-name user__name">
