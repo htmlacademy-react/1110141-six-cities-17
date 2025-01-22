@@ -2,13 +2,17 @@ import { FormEvent, useRef } from 'react';
 
 import { AuthData } from '../../types/authData';
 
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { loginAction } from '../../store/api-actions';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { Navigate } from 'react-router-dom';
 
 function LoginForm() {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const dispatch = useAppDispatch();
 
@@ -28,6 +32,12 @@ function LoginForm() {
       onSubmit(authData);
     }
   };
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return (
+      <Navigate to={AppRoute.Main} />
+    );
+  }
 
   return (
     <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>

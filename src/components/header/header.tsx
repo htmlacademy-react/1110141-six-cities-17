@@ -11,7 +11,6 @@ type HeaderProps = {
 function Header({ isShortHeader }: HeaderProps): JSX.Element {
   const authorizationStatus = useAppSelector((store) => store.authorizationStatus);
   const userData = useAppSelector((state) => state.userData);
-
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
