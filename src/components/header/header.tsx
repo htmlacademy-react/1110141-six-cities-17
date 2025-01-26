@@ -1,8 +1,9 @@
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 import Logo from '../logo/logo';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { logoutAction } from '../../store/api-actions';
 
 type HeaderProps = {
   isShortHeader?: boolean | undefined;
@@ -12,6 +13,15 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
   const authorizationStatus = useAppSelector((store) => store.authorizationStatus);
   const userData = useAppSelector((state) => state.userData);
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.Auth;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    dispatch(logoutAction());
+    navigate(AppRoute.Main);
+  };
 
   return (
     <header className="header">
@@ -43,12 +53,11 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
                             <span className="header__favorite-count">3</span>
                           </Link>
                         </li>
-                        {/* TODO: допилить логаут
                         <li className="header__nav-item">
-                          <a className="header__nav-link" href="#">
+                          <a className="header__nav-link" onClick={handleClick} href="#">
                             <span className="header__signout">Sign out</span>
                           </a>
-                        </li> */}
+                        </li>
                       </>
                     ) : (
                       <li className="header__nav-item user">

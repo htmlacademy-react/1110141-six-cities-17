@@ -139,7 +139,6 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     dispatch(setUserData(null));
-    // TODO: допилить перенаправление на главную страницу
   },
 );
 
