@@ -2,20 +2,23 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 import leaflet from 'leaflet';
 
-import { City } from './types/offers';
+import { CityData } from './types/offers';
+import { Cities } from './const';
 
 type UseMapProps = {
   mapRef: MutableRefObject<HTMLElement | null>;
-  city: City;
+  city: CityData;
 }
 
 function useMap({ mapRef, city }: UseMapProps) {
   const [map, setMap] = useState<leaflet.Map | null>(null);
-  const isRenderedRef = useRef(false);
+  const isRenderedRef = useRef<boolean>(false);
+  const mapInstance = useRef<leaflet.Map | null>(null);
+  const previousCity = useRef<Cities | null>(null);
 
   useEffect(() => {
     if (!isRenderedRef.current && mapRef.current !== null) {
-      const mapInstance = leaflet.map(mapRef?.current, {
+      mapInstance.current = leaflet.map(mapRef?.current, {
         center: [
           city.location.latitude,
           city.location.longitude,
@@ -30,11 +33,18 @@ function useMap({ mapRef, city }: UseMapProps) {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
           },
         )
-        .addTo(mapInstance);
+        .addTo(mapInstance.current);
 
-      setMap(mapInstance);
+      setMap(mapInstance.current);
       isRenderedRef.current = true;
+    } else if (mapInstance.current && previousCity.current !== city.name) {
+      mapInstance.current.setView(
+        [city.location.latitude, city.location.longitude],
+        city.location.zoom
+      );
     }
+
+    previousCity.current = city.name;
   }, [mapRef, city]);
 
   return map;
