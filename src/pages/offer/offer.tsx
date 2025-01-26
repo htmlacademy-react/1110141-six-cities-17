@@ -17,6 +17,7 @@ import { fetchDetailedOfferAction, fetchNearbyOffersAction, fetchOfferCommentsAc
 
 import { convertRatingToStars } from '../../utils';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
+import { AuthorizationStatus } from '../../const';
 
 
 type FormDataState = {
@@ -59,6 +60,7 @@ function Offer(): JSX.Element {
   const currentOffer = useAppSelector((state) => state.detailedOffer);
   const neighbourhoodOffers = useAppSelector((state) => state.nearbyOffers) || [];
   const offerComments = useAppSelector((state) => state.offerComments);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   if (error) {
     return (
@@ -216,7 +218,11 @@ function Offer(): JSX.Element {
                   <section className="offer__reviews reviews">
                     <ReviewsTitle reviews={offerComments} />
                     <ReviewsList reviews={offerComments} />
-                    <ReviewForm onSubmit={onSubmit} />
+                    {
+                      authorizationStatus === AuthorizationStatus.Auth && (
+                        <ReviewForm onSubmit={onSubmit} />
+                      )
+                    }
                   </section>
                 )
               }
