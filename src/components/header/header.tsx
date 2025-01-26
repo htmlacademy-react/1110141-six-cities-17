@@ -28,9 +28,9 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
                     isUserAuthorized ? (
                       <>
                         <li className="header__nav-item user">
-                          <a
+                          <Link
                             className="header__nav-link header__nav-link--profile"
-                            href="#"
+                            to={AppRoute.Favorites}
                           >
                             <div
                               className="header__avatar-wrapper user__avatar-wrapper"
@@ -41,7 +41,7 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
                               {userData?.email}
                             </span>
                             <span className="header__favorite-count">3</span>
-                          </a>
+                          </Link>
                         </li>
                         {/* TODO: допилить логаут
                         <li className="header__nav-item">
