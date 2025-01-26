@@ -1,8 +1,9 @@
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 import Logo from '../logo/logo';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { logoutAction } from '../../store/api-actions';
 
 type HeaderProps = {
   isShortHeader?: boolean | undefined;
@@ -12,6 +13,15 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
   const authorizationStatus = useAppSelector((store) => store.authorizationStatus);
   const userData = useAppSelector((state) => state.userData);
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.Auth;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    dispatch(logoutAction());
+    navigate(AppRoute.Main);
+  };
 
   return (
     <header className="header">
@@ -26,22 +36,29 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
                 <ul className="header__nav-list">
                   {
                     isUserAuthorized ? (
-                      <li className="header__nav-item user">
-                        <a
-                          className="header__nav-link header__nav-link--profile"
-                          href="#"
-                        >
-                          <div
-                            className="header__avatar-wrapper user__avatar-wrapper"
-                            style={{ backgroundImage: `url(${userData?.avatarUrl})` }}
+                      <>
+                        <li className="header__nav-item user">
+                          <Link
+                            className="header__nav-link header__nav-link--profile"
+                            to={AppRoute.Favorites}
                           >
-                          </div>
-                          <span className="header__user-name user__name">
-                            {userData?.email}
-                          </span>
-                          <span className="header__favorite-count">3</span>
-                        </a>
-                      </li>
+                            <div
+                              className="header__avatar-wrapper user__avatar-wrapper"
+                              style={{ backgroundImage: `url(${userData?.avatarUrl})` }}
+                            >
+                            </div>
+                            <span className="header__user-name user__name">
+                              {userData?.email}
+                            </span>
+                            <span className="header__favorite-count">3</span>
+                          </Link>
+                        </li>
+                        <li className="header__nav-item">
+                          <a className="header__nav-link" onClick={handleClick} href="#">
+                            <span className="header__signout">Sign out</span>
+                          </a>
+                        </li>
+                      </>
                     ) : (
                       <li className="header__nav-item user">
                         <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>

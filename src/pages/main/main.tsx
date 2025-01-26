@@ -8,8 +8,6 @@ import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { AMSTERDAM } from '../../mocks/cities';
-
 import { useAppSelector } from '../../hooks';
 
 import { selectFilteredOffers } from '../../selectFilteredOffers';
@@ -18,6 +16,8 @@ import { selectFilteredOffers } from '../../selectFilteredOffers';
 function Main(): JSX.Element {
   const [cardActive, setCardActive] = useState<string | null>(null);
   const offers = useSelector(selectFilteredOffers);
+  const cityData = offers[0].city;
+
   const foundPlacesCount = offers.length;
 
   function handleMouseOver(id: string) {
@@ -49,7 +49,7 @@ function Main(): JSX.Element {
               <PlaceList offers={offers} handleMouseOver={handleMouseOver} handleMouseout={handleMouseout} />
             </section>
             <div className="cities__right-section">
-              <Map city={AMSTERDAM} offers={offers} cardActive={cardActive} mapClassName='cities__map map' mapHeight='100%' />
+              <Map city={cityData} offers={offers} cardActive={cardActive} mapClassName='cities__map map' mapHeight='100%' />
             </div>
           </div>
         </div>

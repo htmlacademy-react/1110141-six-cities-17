@@ -5,13 +5,13 @@ import 'leaflet/dist/leaflet.css';
 
 import { useMap } from '../../useMap';
 
-import { City } from '../../types/offers';
+import { CityData } from '../../types/offers';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import { CompactOffer } from '../../types/offers';
 
 
 type MapProps = {
-  city: City;
+  city: CityData;
   offers: CompactOffer[];
   cardActive: string | null;
   mapClassName: string;

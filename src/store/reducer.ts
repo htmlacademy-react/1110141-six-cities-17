@@ -2,9 +2,9 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { AuthorizationStatus, Cities, SortTypes } from '../const';
 
-import { changeActiveSort, changeCity, loadComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData } from './actions';
+import { changeActiveSort, changeCity, loadComments, loadDetailedOffer, loadNearbyOffers, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData } from './actions';
 
-import { CompactOffers } from '../types/offers';
+import { CompactOffers, DetailedOffer } from '../types/offers';
 import { SortElement } from '../types/sort';
 import { Comments } from '../types/comments';
 import { UserData } from '../types/userData';
@@ -12,6 +12,9 @@ import { UserData } from '../types/userData';
 type InitialState = {
   city: Cities;
   offers: CompactOffers;
+  detailedOffer: DetailedOffer | null;
+  nearbyOffers: CompactOffers | null;
+  offerComments: Comments | null;
   sort: SortElement[];
   authorizationStatus: AuthorizationStatus;
   userData: UserData | null;
@@ -23,6 +26,9 @@ type InitialState = {
 const initialState: InitialState = {
   city: Cities.Paris,
   offers: [],
+  detailedOffer: null,
+  nearbyOffers: null,
+  offerComments: null,
   sort: [
     {
       'title': SortTypes.Popular,
@@ -63,6 +69,15 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
+    })
+    .addCase(loadDetailedOffer, (state, action) => {
+      state.detailedOffer = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(loadOfferComments, (state, action) => {
+      state.offerComments = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;

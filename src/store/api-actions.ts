@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { AppDispatch, State } from '../types/state';
-import { CompactOffers, offerId } from '../types/offers';
+import { CompactOffers, DetailedOffer, offerId } from '../types/offers';
 import { Comments } from '../types/comments';
 import { AuthData } from '../types/authData';
 import { UserData } from '../types/userData';
@@ -10,7 +10,7 @@ import { AxiosInstance } from 'axios';
 
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 
-import { loadComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData } from './actions';
+import { loadComments, loadDetailedOffer, loadNearbyOffers, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData } from './actions';
 
 import { dropToken, saveToken } from '../services/token';
 
@@ -27,6 +27,49 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
     const { data } = await api.get<CompactOffers>(APIRoute.Offers);
     dispatch(setOffersDataLoadingStatus(false));
     dispatch(loadOffers(data));
+  },
+);
+
+export const fetchDetailedOfferAction = createAsyncThunk<DetailedOffer, offerId, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOffer',
+  async (id, { dispatch, extra: api }) => {
+    const offerEndpoint = `/${id}`;
+    const { data } = await api.get<DetailedOffer>(APIRoute.Offers + offerEndpoint);
+    dispatch(loadDetailedOffer(data));
+    return data;
+  },
+);
+
+export const fetchNearbyOffersAction = createAsyncThunk<CompactOffers, offerId, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearbyOffers',
+  async (id, { dispatch, extra: api }) => {
+    const offerEndpoint = `/${id}`;
+    const nearbyEndpoint = '/nearby';
+    const { data } = await api.get<CompactOffers>(APIRoute.Offers + offerEndpoint + nearbyEndpoint);
+    dispatch(loadNearbyOffers(data));
+    return data;
+  },
+);
+
+export const fetchOfferCommentsAction = createAsyncThunk<Comments, offerId, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOfferComments',
+  async (id, { dispatch, extra: api }) => {
+    const offerEndpoint = `/${id}`;
+    const { data } = await api.get<Comments>(APIRoute.Comments + offerEndpoint);
+    dispatch(loadOfferComments(data));
+    return data;
   },
 );
 
