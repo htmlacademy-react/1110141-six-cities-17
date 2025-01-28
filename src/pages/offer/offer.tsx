@@ -19,16 +19,19 @@ import { convertRatingToStars } from '../../utils';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { AuthorizationStatus } from '../../const';
 
-
 type FormDataState = {
   'review': string | null;
   'rating': string | null;
 }
 
 function Offer(): JSX.Element {
+  /** Хук для отправки действий в Redux */
   const dispatch = useAppDispatch();
+  /** Извлечение ID предложения из параметров URL */
   const { id } = useParams<offerId>();
+  /** Локальное состояние для отслеживания ошибки при загрузке данных */
   const [error, setError] = useState<boolean>(false);
+  /** Локальное состояние для хранения данных формы (отзыв и рейтинг) */
   const [formData, setFormData] = useState<FormDataState>(
     {
       'review': null,
@@ -36,6 +39,7 @@ function Offer(): JSX.Element {
     }
   );
 
+  /** Эффект для загрузки данных предложения, соседних предложений и комментариев при изменении ID предложения */
   useEffect(() => {
     if (!id) {
       return;
@@ -43,50 +47,61 @@ function Offer(): JSX.Element {
 
     const fetchOffer = async () => {
       try {
+        /** Загрузка данных предложения, соседних предложений и комментариев параллельно */
         await Promise.all([
           dispatch(fetchDetailedOfferAction(id)).unwrap(),
           dispatch(fetchNearbyOffersAction(id)).unwrap(),
           dispatch(fetchOfferCommentsAction(id)).unwrap(),
         ]);
-        setError(false);
+        setError(false); // Сброс ошибки, если загрузка успешна
       } catch {
-        setError(true);
+        setError(true); // Установка ошибки, если произошла ошибка при загрузке
       }
     };
 
     fetchOffer();
   }, [id]);
 
+  /** Селекторы для получения данных из Redux-хранилища */
   const currentOffer = useAppSelector((state) => state.detailedOffer);
   const neighbourhoodOffers = useAppSelector((state) => state.nearbyOffers) || [];
   const offerComments = useAppSelector((state) => state.offerComments);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
+  /** Отображение страницы 404, если произошла ошибка */
   if (error) {
     return (
       <Navigate to={'/404'} />
     );
   }
 
+  /** Отображение экрана загрузки, если данные предложения еще не загружены */
   if (!currentOffer) {
     return (
       <LoadingScreen />
     );
   }
 
+  /** Извлечение необходимых данных из текущего предложения */
   const { rating, type, bedrooms, maxAdults, price, goods, host, description, city } = currentOffer;
+  /** Конвертация числового рейтинга в процент для отображения звезд */
   const ratingStars = convertRatingToStars(rating);
+  /** Создание массива предложений для карты, включая текущее предложение */
   const offersForMap = [...neighbourhoodOffers];
   offersForMap.push(currentOffer as CompactOffer);
 
+  /** Обработчик отправки формы */
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
+    /** Создание объекта FormData из формы */
     const formDataObject: FormData = new FormData(form);
+    /** Получение отзыва и рейтинга из данных формы */
     const review = formDataObject.get('review');
     const reviewRating = formDataObject.get('rating');
 
     if (typeof review === 'string' && typeof reviewRating === 'string') {
+      /** Обновление локального состояния формы, если данные валидны */
       setFormData(
         {
           ...formData,
@@ -95,7 +110,7 @@ function Offer(): JSX.Element {
         }
       );
     } else {
-      throw new Error('Form data is not valid');
+      throw new Error('Данные формы недействительны');
     }
   }
 
