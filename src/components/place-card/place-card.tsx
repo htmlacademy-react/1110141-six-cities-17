@@ -4,33 +4,32 @@ import { AuthorizationStatus, AppRoute } from '../../const';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { convertRatingToStars, getOfferLink } from '../../utils';
+import { memo } from 'react';
+import { useAppSelector } from '../../hooks';
 
 type PlaceCardProps = {
   offer: CompactOffer;
-  onMouseOver?: (id: string) => void;
-  onMouseOut?: () => void;
+  handleMouseOver?: (id: string) => void;
+  handleMouseout?: () => void;
 }
 
-function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Element {
-
+const PlaceCard = memo(({ offer, handleMouseOver, handleMouseout }: PlaceCardProps): JSX.Element => {
   const { title, price, type, previewImage, isPremium, rating, id } = offer;
-  const ratingStars = convertRatingToStars(rating).toString(10);
+  const ratingStars = convertRatingToStars(rating);
   const offerLink = getOfferLink(id);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const navigate = useNavigate();
 
-  function handleBookmarkClick(authorizationStatus: string) {
-    if (!Object.values(AuthorizationStatus).includes(authorizationStatus as AuthorizationStatus)) {
-      return null;
-    }
-    if ((authorizationStatus as AuthorizationStatus) !== AuthorizationStatus.Auth) {
+  function handleBookmarkClick(authStatus: AuthorizationStatus) {
+    if (authStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoute.Login);
     }
   }
   return (
     <article
       className="cities__card place-card"
-      onMouseOver={() => onMouseOver?.(offer.id)}
-      onMouseOut={() => onMouseOut?.()}
+      onMouseOver={() => handleMouseOver?.(offer.id)}
+      onMouseOut={() => handleMouseout?.()}
     >
       {isPremium && (
         <div className="place-card__mark">
@@ -57,7 +56,7 @@ function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Elem
           <button
             className="place-card__bookmark-button button"
             type="button"
-            onClick={() => handleBookmarkClick(AuthorizationStatus.Auth)}
+            onClick={() => handleBookmarkClick(authorizationStatus)}
           >
             <svg
               className="place-card__bookmark-icon"
@@ -84,6 +83,8 @@ function PlaceCard({ offer, onMouseOver, onMouseOut }: PlaceCardProps): JSX.Elem
       </div>
     </article>
   );
-}
+});
+
+PlaceCard.displayName = 'PlaceCard';
 
 export default PlaceCard;
