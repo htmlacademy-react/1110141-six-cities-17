@@ -7,7 +7,7 @@ import Header from '../../components/header/header';
 
 import { Helmet } from 'react-helmet-async';
 import { Navigate, useParams } from 'react-router-dom';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CompactOffer, offerId } from '../../types/offers';
 
@@ -19,11 +19,6 @@ import { convertRatingToStars } from '../../utils';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { AuthorizationStatus } from '../../const';
 
-type FormDataState = {
-  'review': string | null;
-  'rating': string | null;
-}
-
 function Offer(): JSX.Element {
   /** Хук для отправки действий в Redux */
   const dispatch = useAppDispatch();
@@ -31,13 +26,6 @@ function Offer(): JSX.Element {
   const { id } = useParams<offerId>();
   /** Локальное состояние для отслеживания ошибки при загрузке данных */
   const [error, setError] = useState<boolean>(false);
-  /** Локальное состояние для хранения данных формы (отзыв и рейтинг) */
-  const [formData, setFormData] = useState<FormDataState>(
-    {
-      'review': null,
-      'rating': null,
-    }
-  );
 
   /** Эффект для загрузки данных предложения, соседних предложений и комментариев при изменении ID предложения */
   useEffect(() => {
@@ -89,30 +77,6 @@ function Offer(): JSX.Element {
   /** Создание массива предложений для карты, включая текущее предложение */
   const offersForMap = [...neighbourhoodOffers];
   offersForMap.push(currentOffer as CompactOffer);
-
-  /** Обработчик отправки формы */
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    /** Создание объекта FormData из формы */
-    const formDataObject: FormData = new FormData(form);
-    /** Получение отзыва и рейтинга из данных формы */
-    const review = formDataObject.get('review');
-    const reviewRating = formDataObject.get('rating');
-
-    if (typeof review === 'string' && typeof reviewRating === 'string') {
-      /** Обновление локального состояния формы, если данные валидны */
-      setFormData(
-        {
-          ...formData,
-          'review': review,
-          'rating': reviewRating,
-        }
-      );
-    } else {
-      throw new Error('Данные формы недействительны');
-    }
-  }
 
   return (
     <div className="page">
@@ -235,7 +199,7 @@ function Offer(): JSX.Element {
                     <ReviewsList reviews={offerComments} />
                     {
                       authorizationStatus === AuthorizationStatus.Auth && (
-                        <ReviewForm onSubmit={onSubmit} />
+                        <ReviewForm />
                       )
                     }
                   </section>
