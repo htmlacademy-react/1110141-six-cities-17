@@ -5,7 +5,7 @@ import LocationsList from '../../components/locations-list/locations-list';
 import PlacesSorting from '../../components/places-sorting/places-sorting';
 
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useAppSelector } from '../../hooks';
@@ -23,9 +23,9 @@ function Main(): JSX.Element {
   function handleMouseOver(id: string) {
     setCardActive(id);
   }
-  function handleMouseout() {
+  const handleMouseout = useCallback(() => {
     setCardActive(null);
-  }
+  }, []);
 
   return (
     <div className="page page--gray page--main">
