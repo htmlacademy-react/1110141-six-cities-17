@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 import { useAppSelector } from '../../hooks';
 
-import { selectFilteredOffers } from '../../selectFilteredOffers';
+import { selectFilteredOffers } from '../../select-filtered-offers';
 
 
 function Main(): JSX.Element {

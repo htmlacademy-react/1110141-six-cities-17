@@ -7,7 +7,7 @@ import { changeActiveSort, changeCity, loadOfferComment, loadDetailedOffer, load
 import { CompactOffers, DetailedOffer } from '../types/offers';
 import { SortElement } from '../types/sort';
 import { Comments } from '../types/comments';
-import { UserData } from '../types/userData';
+import { UserData } from '../types/user-data';
 
 type InitialState = {
   city: Cities;

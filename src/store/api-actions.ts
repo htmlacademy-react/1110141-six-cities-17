@@ -3,8 +3,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { CompactOffers, DetailedOffer, OfferId } from '../types/offers';
 import { Comments, Comment, PostComment } from '../types/comments';
-import { AuthData } from '../types/authData';
-import { UserData } from '../types/userData';
+import { AuthData } from '../types/auth-data';
+import { UserData } from '../types/user-data';
 
 import { AxiosInstance } from 'axios';
 

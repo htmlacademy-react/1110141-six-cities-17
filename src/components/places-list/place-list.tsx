@@ -3,7 +3,7 @@ import { CompactOffers } from '../../types/offers';
 import { sortOffers } from '../../utils';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { selectCurrentSort } from '../../selectCurrentSort';
+import { selectCurrentSort } from '../../select-current-sort';
 
 type PlaceListProps = {
   offers: CompactOffers;

@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { AuthorizationStatus, Cities, SortTypes } from '../const';
 import { CompactOffers, DetailedOffer } from '../types/offers';
 import { Comments, Comment } from '../types/comments';
-import { UserData } from '../types/userData';
+import { UserData } from '../types/user-data';
 
 export const changeCity = createAction<Cities>('app/changeCity');
 export const changeActiveSort = createAction<SortTypes>('app/changeActiveSort');
