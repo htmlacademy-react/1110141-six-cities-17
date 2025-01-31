@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { AuthorizationStatus, Cities, SortTypes } from '../const';
 
-import { changeActiveSort, changeCity, loadOfferComment, loadDetailedOffer, loadNearbyOffers, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData } from './actions';
+import { changeActiveSort, changeCity, loadOfferComment, loadDetailedOffer, loadNearbyOffers, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, toggleFavoriteStatus } from './actions';
 
 import { CompactOffers, DetailedOffer } from '../types/offers';
 import { SortElement } from '../types/sort';
@@ -73,6 +73,18 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadNearbyOffers, (state, action) => {
       state.nearbyOffers = action.payload;
+    })
+    .addCase(toggleFavoriteStatus, (state, action) => {
+      state.offers = [...state.offers].map((offer) => {
+        if (offer.id === action.payload) {
+          const isFavorite = offer.isFavorite;
+          return {
+            ...offer,
+            isFavorite: !isFavorite,
+          };
+        }
+        return offer;
+      });
     })
     .addCase(loadOfferComments, (state, action) => {
       state.offerComments = action.payload;

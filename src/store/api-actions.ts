@@ -10,7 +10,7 @@ import { AxiosInstance } from 'axios';
 
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 
-import { loadDetailedOffer, loadNearbyOffers, loadOfferComment, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData } from './actions';
+import { loadDetailedOffer, loadNearbyOffers, loadOfferComment, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, toggleFavoriteStatus } from './actions';
 
 import { dropToken, saveToken } from '../services/token';
 
@@ -73,6 +73,21 @@ export const fetchOfferCommentsAction = createAsyncThunk<Comments, OfferId, {
   },
 );
 
+export const postFavoriteAction = createAsyncThunk<void, { offerId: OfferId; status: boolean }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postFavoriteAction',
+  async ({ offerId, status }, { dispatch, extra: api }) => {
+    const numberStatus = Number(!status);
+    const endpointArgs = [APIRoute.Favorite, offerId, numberStatus];
+    const endpoint = endpointArgs.join('/');
+    await api.post<DetailedOffer>(endpoint);
+    dispatch(toggleFavoriteStatus(offerId));
+  },
+);
+
 export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
@@ -129,7 +144,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   state: State;
   extra: AxiosInstance;
 }>(
-  'user/login',
+  'user/checkAuthAction',
   async (_arg, { dispatch, extra: api }) => {
     try {
       const { data } = await api.get<UserData>(APIRoute.Login);
