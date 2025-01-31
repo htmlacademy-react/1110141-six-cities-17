@@ -7,9 +7,11 @@ import { useAppSelector } from '../../hooks';
 import Header from '../../components/header/header';
 import FavoritesLocations from '../../components/favorites-locations/favorites-location';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { Cities } from '../../const';
+import { AppRoute, AuthorizationStatus, Cities } from '../../const';
+
 
 type SortedOffers = {
   [key: string]: CompactOffers;
@@ -18,6 +20,14 @@ type SortedOffers = {
 function Favorites(): JSX.Element {
 
   const offers = useAppSelector((state) => state.offers);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+    }
+  });
 
   const favoriteOffers = useMemo(() => (
     offers.filter((offer) => offer.isFavorite)
