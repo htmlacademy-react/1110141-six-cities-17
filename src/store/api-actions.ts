@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { AppDispatch, State } from '../types/state';
-import { CompactOffers, DetailedOffer, offerId } from '../types/offers';
-import { Comments } from '../types/comments';
+import { CompactOffers, DetailedOffer, OfferId } from '../types/offers';
+import { Comments, Comment, PostComment } from '../types/comments';
 import { AuthData } from '../types/authData';
 import { UserData } from '../types/userData';
 
@@ -10,7 +10,7 @@ import { AxiosInstance } from 'axios';
 
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 
-import { loadComments, loadDetailedOffer, loadNearbyOffers, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData } from './actions';
+import { loadDetailedOffer, loadNearbyOffers, loadOfferComment, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData } from './actions';
 
 import { dropToken, saveToken } from '../services/token';
 
@@ -30,7 +30,7 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const fetchDetailedOfferAction = createAsyncThunk<DetailedOffer, offerId, {
+export const fetchDetailedOfferAction = createAsyncThunk<DetailedOffer, OfferId, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -44,7 +44,7 @@ export const fetchDetailedOfferAction = createAsyncThunk<DetailedOffer, offerId,
   },
 );
 
-export const fetchNearbyOffersAction = createAsyncThunk<CompactOffers, offerId, {
+export const fetchNearbyOffersAction = createAsyncThunk<CompactOffers, OfferId, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -59,7 +59,7 @@ export const fetchNearbyOffersAction = createAsyncThunk<CompactOffers, offerId, 
   },
 );
 
-export const fetchOfferCommentsAction = createAsyncThunk<Comments, offerId, {
+export const fetchOfferCommentsAction = createAsyncThunk<Comments, OfferId, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -85,7 +85,7 @@ export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const fetchCommentsAction = createAsyncThunk<void, offerId, {
+export const fetchCommentsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -93,7 +93,20 @@ export const fetchCommentsAction = createAsyncThunk<void, offerId, {
   'data/fetchComments',
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<Comments>(APIRoute.Comments);
-    dispatch(loadComments(data));
+    dispatch(loadOfferComments(data));
+  },
+);
+
+export const postCommentAction = createAsyncThunk<void, { offerId: OfferId; comment: PostComment }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postComment',
+  async ({ offerId, comment }, { dispatch, extra: api }) => {
+    const offerEndpoint = `/${offerId}`;
+    const { data } = await api.post<Comment>(APIRoute.Comments + offerEndpoint, comment);
+    dispatch(loadOfferComment(data));
   },
 );
 

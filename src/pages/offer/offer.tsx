@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet-async';
 import { Navigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import { CompactOffer, offerId } from '../../types/offers';
+import { CompactOffer, OfferId } from '../../types/offers';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
@@ -23,7 +23,7 @@ function Offer(): JSX.Element {
   /** Хук для отправки действий в Redux */
   const dispatch = useAppDispatch();
   /** Извлечение ID предложения из параметров URL */
-  const { id } = useParams<offerId>();
+  const { id } = useParams<OfferId>();
   /** Локальное состояние для отслеживания ошибки при загрузке данных */
   const [error, setError] = useState<boolean>(false);
 
@@ -198,8 +198,8 @@ function Offer(): JSX.Element {
                     <ReviewsTitle reviews={offerComments} />
                     <ReviewsList reviews={offerComments} />
                     {
-                      authorizationStatus === AuthorizationStatus.Auth && (
-                        <ReviewForm />
+                      authorizationStatus === AuthorizationStatus.Auth && id && (
+                        <ReviewForm offerId={id} />
                       )
                     }
                   </section>

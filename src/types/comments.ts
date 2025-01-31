@@ -6,12 +6,12 @@ export type Comment = {
     avatarUrl: string;
     isPro: boolean;
   };
-  review: string;
+  comment: string;
   rating: number;
 }
 
 export type PostComment = {
-  review: string;
+  comment: string;
   rating: number;
 }
 

@@ -1,20 +1,28 @@
 import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { OfferId } from '../../types/offers';
+import { postCommentAction } from '../../store/api-actions';
 
 type FormDataState = {
-  'review': string | null;
-  'rating': string | null;
+  comment: string | null;
+  rating: string | null;
 }
 
-function ReviewForm() {
+type ReviewFormProps = {
+  offerId: OfferId;
+}
+
+function ReviewForm({ offerId }: ReviewFormProps) {
   /** Локальное состояние для хранения данных формы (отзыв и рейтинг) */
   const [formData, setFormData] = useState<FormDataState>(
     {
-      'review': null,
+      'comment': null,
       'rating': null,
     }
   );
-  /** Локальное  */
+  /** Локальное состояние отвечающее за доступность кнопки отправки формы */
   const [isSubmitDisabled, setSubmitDisabled] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
 
   /** Обработчик отправки формы */
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -23,18 +31,12 @@ function ReviewForm() {
     /** Создание объекта FormData из формы */
     const formDataObject: FormData = new FormData(form);
     /** Получение отзыва и рейтинга из данных формы */
-    const review = formDataObject.get('review');
-    const reviewRating = formDataObject.get('rating');
+    const comment = formDataObject.get('comment')?.toString();
+    const reviewRating = +(formDataObject.get('rating') || 0);
 
-    if (typeof review === 'string' && typeof reviewRating === 'string') {
-      /** Обновление локального состояния формы, если данные валидны */
-      setFormData(
-        {
-          ...formData,
-          'review': review,
-          'rating': reviewRating,
-        }
-      );
+    if (comment && reviewRating) {
+      /** Отправляем комментарий на сервак если всё чики бомбони */
+      dispatch(postCommentAction({ offerId, comment: { comment: comment, rating: reviewRating } }));
     } else {
       throw new Error('Данные формы недействительны');
     }
@@ -48,11 +50,14 @@ function ReviewForm() {
       [name]: value,
     }));
 
-    /** Короче вот этот мув (formData.review || '') нужен чтобы тс не пиздел что что-то из этого is possibly null, в остальном это просто проверка на длину комментария */
-    const isReviewValid = (name === 'review' ? value.trim().length >= 50 : (formData.review || '').trim().length >= 50);
+    const comment = (value || formData.comment || '');
+    const commentLength = comment.trim().length;
+
+    /** Короче вот этот мув (formData.comment || '') нужен чтобы тс не пиздел что что-то из этого is possibly null, в остальном это просто проверка на длину комментария */
+    const iscommentValid = (name === 'comment' ? commentLength >= 50 && commentLength <= 300 : false);
     const isRatingValid = (name === 'rating' ? !!value : !!formData.rating);
 
-    setSubmitDisabled(!(isReviewValid && isRatingValid));
+    setSubmitDisabled(!(iscommentValid && isRatingValid));
   }
 
   return (
@@ -62,8 +67,8 @@ function ReviewForm() {
       method="post"
       onSubmit={(event: FormEvent<HTMLFormElement>) => handleSubmit(event)}
     >
-      <label className="reviews__label form__label" htmlFor="review">
-        Your review
+      <label className="reviews__label form__label" htmlFor="comment">
+        Your comment
       </label>
       <div className="reviews__rating-form form__rating">
         {Array.from({ length: 5 }, (_, i) => {
@@ -94,14 +99,14 @@ function ReviewForm() {
 
       <textarea
         className="reviews__textarea form__textarea"
-        id="review"
-        name="review"
+        id="comment"
+        name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+          To submit comment please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
