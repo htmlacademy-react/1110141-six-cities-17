@@ -1,8 +1,8 @@
-import { Review } from '../../types/reviews';
+import { Comments } from '../../types/comments';
 import ReviewItem from '../review-item/review-item';
 
 type ReviewsListProps = {
-  reviews: Review[];
+  reviews: Comments;
 }
 
 function ReviewsList({ reviews }: ReviewsListProps) {
