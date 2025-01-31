@@ -1,6 +1,14 @@
-import { useAppDispatch } from '../../hooks';
+import { useState } from 'react';
+
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
 import { postFavoriteAction } from '../../store/api-actions';
+
 import { CompactOffer } from '../../types/offers';
+
+import { useNavigate } from 'react-router-dom';
+
+import { AppRoute, AuthorizationStatus } from '../../const';
 
 type BookmarkButtonProps = {
   offer: CompactOffer;
@@ -9,17 +17,24 @@ type BookmarkButtonProps = {
 function BookmarkButton({ offer }: BookmarkButtonProps) {
 
   const dispatch = useAppDispatch();
+  const [buttonActive, setButtonActive] = useState<boolean>(offer.isFavorite);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const navigate = useNavigate();
 
   function handleBookmarkClick(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
 
-    dispatch(postFavoriteAction({ offerId: offer.id, status: offer.isFavorite }));
-  }
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+    }
 
+    dispatch(postFavoriteAction({ offerId: offer.id, status: offer.isFavorite }));
+    setButtonActive(!offer.isFavorite);
+  }
 
   return (
     <button
-      className="place-card__bookmark-button place-card__bookmark-button--active button"
+      className={`place-card__bookmark-button ${buttonActive ? 'place-card__bookmark-button--active' : ''} button`}
       type="button"
       onClick={(event) => handleBookmarkClick(event)}
     >
