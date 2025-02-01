@@ -1,6 +1,6 @@
 import { Cities } from '../../const';
 import { CompactOffers } from '../../types/offers';
-import FavoritesOffer from '../favorites-offer/Favorites-offer';
+import FavoritesOffer from '../favorites-offer/favorites-offer';
 
 type FavoritesLocationsProps = {
   city: Cities;
