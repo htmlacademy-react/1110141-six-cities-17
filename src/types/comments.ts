@@ -10,4 +10,9 @@ export type Comment = {
   rating: number;
 }
 
+export type PostComment = {
+  comment: string;
+  rating: number;
+}
+
 export type Comments = Comment[];

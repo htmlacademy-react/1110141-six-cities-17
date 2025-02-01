@@ -1,7 +1,7 @@
-import { Review } from '../../types/reviews';
+import { Comments } from '../../types/comments';
 
 type ReviewsTitleProps = {
-  reviews: Review[];
+  reviews: Comments;
 }
 
 function ReviewsTitle({ reviews }: ReviewsTitleProps) {

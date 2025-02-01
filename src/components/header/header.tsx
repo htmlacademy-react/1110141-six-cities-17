@@ -4,6 +4,7 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import Logo from '../logo/logo';
 import { Link, useNavigate } from 'react-router-dom';
 import { logoutAction } from '../../store/api-actions';
+import { useMemo } from 'react';
 
 type HeaderProps = {
   isShortHeader?: boolean | undefined;
@@ -15,6 +16,7 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.Auth;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const offers = useAppSelector((state) => state.offers);
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -22,6 +24,10 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
     dispatch(logoutAction());
     navigate(AppRoute.Main);
   };
+
+  const favoriteCount = useMemo(() => (
+    offers.filter((offer) => offer.isFavorite).length
+  ), [offers]);
 
   return (
     <header className="header">
@@ -50,7 +56,7 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
                             <span className="header__user-name user__name">
                               {userData?.email}
                             </span>
-                            <span className="header__favorite-count">3</span>
+                            <span className="header__favorite-count">{favoriteCount}</span>
                           </Link>
                         </li>
                         <li className="header__nav-item">

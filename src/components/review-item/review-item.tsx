@@ -1,11 +1,11 @@
-import { Review } from '../../types/reviews';
+import { Comment } from '../../types/comments';
 
 import { convertRatingToStars } from '../../utils';
 
 import dayjs from 'dayjs';
 
 type ReviewItemProps = {
-  review: Review;
+  review: Comment;
 }
 
 function ReviewItem({ review }: ReviewItemProps) {

@@ -10,15 +10,13 @@ import { useSelector } from 'react-redux';
 
 import { useAppSelector } from '../../hooks';
 
-import { selectFilteredOffers } from '../../selectFilteredOffers';
+import { selectFilteredOffers } from '../../select-filtered-offers';
+import MainEmpty from '../../components/main-empty/main-empty';
 
 
 function Main(): JSX.Element {
   const [cardActive, setCardActive] = useState<string | null>(null);
   const offers = useSelector(selectFilteredOffers);
-  const cityData = offers[0].city;
-
-  const foundPlacesCount = offers.length;
 
   function handleMouseOver(id: string) {
     setCardActive(id);
@@ -26,6 +24,18 @@ function Main(): JSX.Element {
   const handleMouseout = useCallback(() => {
     setCardActive(null);
   }, []);
+
+  const currentCity = useAppSelector((store) => store.city);
+
+  if (!offers || offers.length === 0) {
+    return (
+      <MainEmpty />
+    );
+  }
+
+  const cityData = offers[0].city;
+
+  const foundPlacesCount = offers.length;
 
   return (
     <div className="page page--gray page--main">
@@ -44,7 +54,7 @@ function Main(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{foundPlacesCount} places to stay in {useAppSelector((store) => store.city)}</b>
+              <b className="places__found">{foundPlacesCount} places to stay in {currentCity}</b>
               <PlacesSorting />
               <PlaceList offers={offers} handleMouseOver={handleMouseOver} handleMouseout={handleMouseout} />
             </section>

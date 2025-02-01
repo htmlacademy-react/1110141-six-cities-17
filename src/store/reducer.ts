@@ -2,12 +2,12 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { AuthorizationStatus, Cities, SortTypes } from '../const';
 
-import { changeActiveSort, changeCity, loadComments, loadDetailedOffer, loadNearbyOffers, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData } from './actions';
+import { changeActiveSort, changeCity, loadOfferComment, loadDetailedOffer, loadNearbyOffers, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, toggleFavoriteStatus } from './actions';
 
 import { CompactOffers, DetailedOffer } from '../types/offers';
 import { SortElement } from '../types/sort';
 import { Comments } from '../types/comments';
-import { UserData } from '../types/userData';
+import { UserData } from '../types/user-data';
 
 type InitialState = {
   city: Cities;
@@ -18,7 +18,6 @@ type InitialState = {
   sort: SortElement[];
   authorizationStatus: AuthorizationStatus;
   userData: UserData | null;
-  comments: Comments;
   error: string | null;
   isOffersDataLoading: boolean;
 }
@@ -28,7 +27,7 @@ const initialState: InitialState = {
   offers: [],
   detailedOffer: null,
   nearbyOffers: null,
-  offerComments: null,
+  offerComments: [],
   sort: [
     {
       'title': SortTypes.Popular,
@@ -49,7 +48,6 @@ const initialState: InitialState = {
   ],
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: null,
-  comments: [],
   error: null,
   isOffersDataLoading: false,
 };
@@ -76,14 +74,26 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loadNearbyOffers, (state, action) => {
       state.nearbyOffers = action.payload;
     })
+    .addCase(toggleFavoriteStatus, (state, action) => {
+      state.offers = [...state.offers].map((offer) => {
+        if (offer.id === action.payload) {
+          const isFavorite = offer.isFavorite;
+          return {
+            ...offer,
+            isFavorite: !isFavorite,
+          };
+        }
+        return offer;
+      });
+    })
     .addCase(loadOfferComments, (state, action) => {
       state.offerComments = action.payload;
     })
+    .addCase(loadOfferComment, (state, action) => {
+      state.offerComments = [...(state.offerComments || []), action.payload];
+    })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
-    })
-    .addCase(loadComments, (state, action) => {
-      state.comments = action.payload;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;

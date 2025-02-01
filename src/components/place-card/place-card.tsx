@@ -1,11 +1,9 @@
 import { CompactOffer } from '../../types/offers';
 
-import { AuthorizationStatus, AppRoute } from '../../const';
-
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { convertRatingToStars, getOfferLink } from '../../utils';
 import { memo } from 'react';
-import { useAppSelector } from '../../hooks';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 
 type PlaceCardProps = {
   offer: CompactOffer;
@@ -17,14 +15,7 @@ const PlaceCard = memo(({ offer, handleMouseOver, handleMouseout }: PlaceCardPro
   const { title, price, type, previewImage, isPremium, rating, id } = offer;
   const ratingStars = convertRatingToStars(rating);
   const offerLink = getOfferLink(id);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const navigate = useNavigate();
 
-  function handleBookmarkClick(authStatus: AuthorizationStatus) {
-    if (authStatus !== AuthorizationStatus.Auth) {
-      navigate(AppRoute.Login);
-    }
-  }
   return (
     <article
       className="cities__card place-card"
@@ -53,20 +44,7 @@ const PlaceCard = memo(({ offer, handleMouseOver, handleMouseout }: PlaceCardPro
             <b className="place-card__price-value">€{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button
-            className="place-card__bookmark-button button"
-            type="button"
-            onClick={() => handleBookmarkClick(authorizationStatus)}
-          >
-            <svg
-              className="place-card__bookmark-icon"
-              width={18}
-              height={19}
-            >
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <BookmarkButton offer={offer} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

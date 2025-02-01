@@ -1,6 +1,6 @@
 import { FormEvent, useRef } from 'react';
 
-import { AuthData } from '../../types/authData';
+import { AuthData } from '../../types/auth-data';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 

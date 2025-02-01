@@ -7,9 +7,9 @@ import Header from '../../components/header/header';
 
 import { Helmet } from 'react-helmet-async';
 import { Navigate, useParams } from 'react-router-dom';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { CompactOffer, offerId } from '../../types/offers';
+import { CompactOffer, OfferId } from '../../types/offers';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
@@ -18,26 +18,15 @@ import { fetchDetailedOfferAction, fetchNearbyOffersAction, fetchOfferCommentsAc
 import { convertRatingToStars } from '../../utils';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { AuthorizationStatus } from '../../const';
-
-type FormDataState = {
-  'review': string | null;
-  'rating': string | null;
-}
+import BookmarkButton from '../../components/bookmark-button/bookmark-button';
 
 function Offer(): JSX.Element {
   /** Хук для отправки действий в Redux */
   const dispatch = useAppDispatch();
   /** Извлечение ID предложения из параметров URL */
-  const { id } = useParams<offerId>();
+  const { id } = useParams<OfferId>();
   /** Локальное состояние для отслеживания ошибки при загрузке данных */
   const [error, setError] = useState<boolean>(false);
-  /** Локальное состояние для хранения данных формы (отзыв и рейтинг) */
-  const [formData, setFormData] = useState<FormDataState>(
-    {
-      'review': null,
-      'rating': null,
-    }
-  );
 
   /** Эффект для загрузки данных предложения, соседних предложений и комментариев при изменении ID предложения */
   useEffect(() => {
@@ -64,6 +53,7 @@ function Offer(): JSX.Element {
 
   /** Селекторы для получения данных из Redux-хранилища */
   const currentOffer = useAppSelector((state) => state.detailedOffer);
+  const currentOfferCompact = useAppSelector((state) => state.offers.find((offer) => offer.id === id));
   const neighbourhoodOffers = useAppSelector((state) => state.nearbyOffers) || [];
   const offerComments = useAppSelector((state) => state.offerComments);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -89,30 +79,6 @@ function Offer(): JSX.Element {
   /** Создание массива предложений для карты, включая текущее предложение */
   const offersForMap = [...neighbourhoodOffers];
   offersForMap.push(currentOffer as CompactOffer);
-
-  /** Обработчик отправки формы */
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    /** Создание объекта FormData из формы */
-    const formDataObject: FormData = new FormData(form);
-    /** Получение отзыва и рейтинга из данных формы */
-    const review = formDataObject.get('review');
-    const reviewRating = formDataObject.get('rating');
-
-    if (typeof review === 'string' && typeof reviewRating === 'string') {
-      /** Обновление локального состояния формы, если данные валидны */
-      setFormData(
-        {
-          ...formData,
-          'review': review,
-          'rating': reviewRating,
-        }
-      );
-    } else {
-      throw new Error('Данные формы недействительны');
-    }
-  }
 
   return (
     <div className="page">
@@ -150,12 +116,11 @@ function Offer(): JSX.Element {
                 <h1 className="offer__name">
                   {currentOffer?.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                {
+                  currentOfferCompact && (
+                    <BookmarkButton offer={currentOfferCompact} isOfferBookmark />
+                  )
+                }
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
@@ -234,8 +199,8 @@ function Offer(): JSX.Element {
                     <ReviewsTitle reviews={offerComments} />
                     <ReviewsList reviews={offerComments} />
                     {
-                      authorizationStatus === AuthorizationStatus.Auth && (
-                        <ReviewForm onSubmit={onSubmit} />
+                      authorizationStatus === AuthorizationStatus.Auth && id && (
+                        <ReviewForm offerId={id} />
                       )
                     }
                   </section>

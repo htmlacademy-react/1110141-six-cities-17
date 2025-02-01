@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import { useMap } from '../../useMap';
+import { useMap } from '../../use-map';
 
 import { CityData } from '../../types/offers';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
