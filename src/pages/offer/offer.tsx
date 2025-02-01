@@ -18,6 +18,7 @@ import { fetchDetailedOfferAction, fetchNearbyOffersAction, fetchOfferCommentsAc
 import { convertRatingToStars } from '../../utils';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { AuthorizationStatus } from '../../const';
+import BookmarkButton from '../../components/bookmark-button/bookmark-button';
 
 function Offer(): JSX.Element {
   /** Хук для отправки действий в Redux */
@@ -52,6 +53,7 @@ function Offer(): JSX.Element {
 
   /** Селекторы для получения данных из Redux-хранилища */
   const currentOffer = useAppSelector((state) => state.detailedOffer);
+  const currentOfferCompact = useAppSelector((state) => state.offers.find((offer) => offer.id === id));
   const neighbourhoodOffers = useAppSelector((state) => state.nearbyOffers) || [];
   const offerComments = useAppSelector((state) => state.offerComments);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -114,12 +116,11 @@ function Offer(): JSX.Element {
                 <h1 className="offer__name">
                   {currentOffer?.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                {
+                  currentOfferCompact && (
+                    <BookmarkButton offer={currentOfferCompact} isOfferBookmark />
+                  )
+                }
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
