@@ -1,3 +1,7 @@
+/**
+ * Техдолг - 9.34. Прикрой меня тестом
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
