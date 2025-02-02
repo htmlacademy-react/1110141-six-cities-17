@@ -3,6 +3,9 @@ import { useAppDispatch } from '../../hooks';
 import { OfferId } from '../../types/offers';
 import { postCommentAction } from '../../store/api-actions';
 
+const STARS_COUNT = 5;
+const LABEL_TITLES = ['perfect', 'good', 'not bad', 'badly', 'terribly'];
+
 type FormDataState = {
   comment: string | null;
   rating: string | null;
@@ -71,8 +74,9 @@ function ReviewForm({ offerId }: ReviewFormProps) {
         Your comment
       </label>
       <div className="reviews__rating-form form__rating">
-        {Array.from({ length: 5 }, (_, i) => {
-          const ratingValue = 5 - i;
+        {Array.from({ length: STARS_COUNT }, (_, i) => {
+          const ratingValue = STARS_COUNT - i;
+          const labelTitle = LABEL_TITLES[i];
           return (
             <Fragment key={ratingValue}>
               <input
@@ -86,7 +90,7 @@ function ReviewForm({ offerId }: ReviewFormProps) {
               <label
                 htmlFor={`${ratingValue}-stars`}
                 className="reviews__rating-label form__rating-label"
-                title="perfect"
+                title={labelTitle}
               >
                 <svg className="form__star-image" width={37} height={33}>
                   <use xlinkHref="#icon-star" />
