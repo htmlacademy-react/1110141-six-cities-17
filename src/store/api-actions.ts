@@ -10,7 +10,7 @@ import { AxiosInstance } from 'axios';
 
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 
-import { loadDetailedOffer, loadNearbyOffers, loadOfferComment, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, toggleFavoriteStatus } from './actions';
+import { loadDetailedOffer, loadFavorites, loadNearbyOffers, loadOfferComment, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, toggleFavoriteStatus } from './actions';
 
 import { dropToken, saveToken } from '../services/token';
 
@@ -96,7 +96,7 @@ export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
   'data/fetchFavorites',
   async (_arg, { dispatch, extra: api }) => {
     const { data } = await api.get<CompactOffers>(APIRoute.Favorite);
-    dispatch(loadOffers(data));
+    dispatch(loadFavorites(data));
   },
 );
 

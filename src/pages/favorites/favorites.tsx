@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 
 import { CompactOffers } from '../../types/offers';
 
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import Header from '../../components/header/header';
 import FavoritesLocations from '../../components/favorites-locations/favorites-location';
@@ -11,6 +11,7 @@ import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AppRoute, AuthorizationStatus, Cities } from '../../const';
+import { fetchFavoritesAction } from '../../store/api-actions';
 
 
 type SortedOffers = {
@@ -18,20 +19,17 @@ type SortedOffers = {
 }
 
 function Favorites(): JSX.Element {
-
-  const offers = useAppSelector((state) => state.offers);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const favoriteOffers = useAppSelector((state) => state.favoriteOffers);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoute.Login);
     }
-  });
-
-  const favoriteOffers = useMemo(() => (
-    offers.filter((offer) => offer.isFavorite)
-  ), [offers]);
+    dispatch(fetchFavoritesAction());
+  }, [authorizationStatus]);
 
   const sortedOffers = useMemo(() =>
     favoriteOffers.reduce((accumulator, offer) => {

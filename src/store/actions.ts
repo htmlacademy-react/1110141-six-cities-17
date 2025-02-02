@@ -7,6 +7,7 @@ import { UserData } from '../types/user-data';
 export const changeCity = createAction<Cities>('app/changeCity');
 export const changeActiveSort = createAction<SortTypes>('app/changeActiveSort');
 export const loadOffers = createAction<CompactOffers>('data/loadOffers');
+export const loadFavorites = createAction<CompactOffers>('data/loadFavorites');
 export const loadDetailedOffer = createAction<DetailedOffer>('data/loadDetailedOffer');
 export const loadNearbyOffers = createAction<CompactOffers>('data/loadNearbyOffers');
 export const toggleFavoriteStatus = createAction<OfferId>('data/toggleFavoriteStatus');
