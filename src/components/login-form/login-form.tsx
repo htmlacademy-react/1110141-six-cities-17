@@ -20,10 +20,14 @@ function LoginForm() {
     dispatch(loginAction(authData));
   };
 
+  const validateFormData = (login: string | undefined, password: string | undefined) => login !== undefined && password !== undefined && password.length >= 2;
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
+    const isFormDataValid = validateFormData(loginRef.current?.value, passwordRef.current?.value);
+
+    if (loginRef.current !== null && passwordRef.current !== null && isFormDataValid) {
       const authData = {
         login: loginRef.current.value,
         password: passwordRef.current.value
