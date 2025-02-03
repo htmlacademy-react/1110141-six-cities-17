@@ -24,8 +24,8 @@ function BookmarkButton({ offer, isOfferBookmark }: BookmarkButtonProps) {
 
   const toggleOfferAsFavorite = async () => {
     await dispatch(postFavoriteAction({ offerId: offer.id, status: offer.isFavorite }));
-    dispatch(fetchFavoritesAction());
-    setButtonActive(!offer.isFavorite);
+    await dispatch(fetchFavoritesAction());
+    setButtonActive((previousState) => !previousState);
   };
 
   function handleBookmarkClick(event: React.MouseEvent<HTMLButtonElement>) {
