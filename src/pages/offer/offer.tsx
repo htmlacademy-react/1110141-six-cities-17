@@ -20,6 +20,8 @@ import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { AuthorizationStatus } from '../../const';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button';
 
+const OFFER_IMAGES_COUNT = 6;
+
 function Offer(): JSX.Element {
   /** Хук для отправки действий в Redux */
   const dispatch = useAppDispatch();
@@ -53,7 +55,6 @@ function Offer(): JSX.Element {
 
   /** Селекторы для получения данных из Redux-хранилища */
   const currentOffer = useAppSelector((state) => state.detailedOffer);
-  const currentOfferCompact = useAppSelector((state) => state.offers.find((offer) => offer.id === id));
   const neighbourhoodOffers = useAppSelector((state) => state.nearbyOffers) || [];
   const offerComments = useAppSelector((state) => state.offerComments);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -79,6 +80,8 @@ function Offer(): JSX.Element {
   /** Создание массива предложений для карты, включая текущее предложение */
   const offersForMap = [...neighbourhoodOffers];
   offersForMap.push(currentOffer as CompactOffer);
+  /** Обрезает количество изображений до 6 */
+  const currentOfferImages = currentOffer.images.slice(0, OFFER_IMAGES_COUNT);
 
   return (
     <div className="page">
@@ -91,7 +94,7 @@ function Offer(): JSX.Element {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               {
-                currentOffer?.images.map((image) => (
+                currentOfferImages.map((image) => (
                   <div key={image} className="offer__image-wrapper">
                     <img
                       className="offer__image"
@@ -117,8 +120,8 @@ function Offer(): JSX.Element {
                   {currentOffer?.title}
                 </h1>
                 {
-                  currentOfferCompact && (
-                    <BookmarkButton offer={currentOfferCompact} isOfferBookmark />
+                  currentOffer && (
+                    <BookmarkButton offer={currentOffer} isOfferBookmark />
                   )
                 }
               </div>
@@ -167,7 +170,7 @@ function Offer(): JSX.Element {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className={`offer__avatar-wrapper ${host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
                     <img
                       className="offer__avatar user__avatar"
                       src={host.avatarUrl}

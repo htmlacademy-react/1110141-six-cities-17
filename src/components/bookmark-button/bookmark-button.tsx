@@ -4,14 +4,14 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { postFavoriteAction } from '../../store/api-actions';
 
-import { CompactOffer } from '../../types/offers';
+import { CompactOffer, DetailedOffer } from '../../types/offers';
 
 import { useNavigate } from 'react-router-dom';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 
 type BookmarkButtonProps = {
-  offer: CompactOffer;
+  offer: CompactOffer | DetailedOffer;
   isOfferBookmark?: boolean | undefined;
 }
 

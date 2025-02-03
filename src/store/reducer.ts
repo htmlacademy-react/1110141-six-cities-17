@@ -90,6 +90,10 @@ export const reducer = createReducer(initialState, (builder) => {
         }
         return offer;
       });
+
+      if (state.detailedOffer) {
+        state.detailedOffer.isFavorite = !state.detailedOffer.isFavorite;
+      }
     })
     .addCase(loadOfferComments, (state, action) => {
       state.offerComments = action.payload;
