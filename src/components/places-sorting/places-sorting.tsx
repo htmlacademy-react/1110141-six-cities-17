@@ -27,6 +27,7 @@ function PlacesSorting() {
 
     if (target.textContent && Object.values(SortTypes).includes(target.textContent as SortTypes)) {
       dispatch(changeActiveSort(target.textContent as SortTypes));
+      setIsPlacesOptionsListActive(false);
     }
   }
 
