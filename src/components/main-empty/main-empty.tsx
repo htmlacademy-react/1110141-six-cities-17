@@ -1,8 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../header/header';
 import LocationsList from '../locations-list/locations-list';
+import { useAppSelector } from '../../hooks';
 
 function MainEmpty() {
+  const currentCity = useAppSelector((state) => state.city);
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -22,7 +25,7 @@ function MainEmpty() {
               <div className="cities__status-wrapper tabs__content">
                 <b className="cities__status">No places to stay available</b>
                 <p className="cities__status-description">
-                  We could not find any property available at the moment in Dusseldorf
+                  We could not find any property available at the moment in {currentCity}
                 </p>
               </div>
             </section>
