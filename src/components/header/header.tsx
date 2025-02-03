@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 import Logo from '../logo/logo';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useMatch, useNavigate } from 'react-router-dom';
 import { logoutAction } from '../../store/api-actions';
 import { useMemo } from 'react';
 
@@ -17,12 +17,16 @@ function Header({ isShortHeader }: HeaderProps): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const offers = useAppSelector((state) => state.offers);
+  const isFavoritesPage = useMatch(AppRoute.Favorites);
+  const isMainPage = useMatch(AppRoute.Main);
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
 
     dispatch(logoutAction());
-    navigate(AppRoute.Main);
+    if (!isFavoritesPage && !isMainPage) {
+      navigate(AppRoute.Main);
+    }
   };
 
   const favoriteCount = useMemo(() => (

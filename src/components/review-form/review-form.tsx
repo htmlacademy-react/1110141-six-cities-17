@@ -3,9 +3,12 @@ import { useAppDispatch } from '../../hooks';
 import { OfferId } from '../../types/offers';
 import { postCommentAction } from '../../store/api-actions';
 
+const STARS_COUNT = 5;
+const LABEL_TITLES = ['perfect', 'good', 'not bad', 'badly', 'terribly'];
+
 type FormDataState = {
-  comment: string | null;
-  rating: string | null;
+  comment: string;
+  rating: string;
 }
 
 type ReviewFormProps = {
@@ -13,51 +16,61 @@ type ReviewFormProps = {
 }
 
 function ReviewForm({ offerId }: ReviewFormProps) {
-  /** Локальное состояние для хранения данных формы (отзыв и рейтинг) */
-  const [formData, setFormData] = useState<FormDataState>(
-    {
-      'comment': null,
-      'rating': null,
-    }
-  );
-  /** Локальное состояние отвечающее за доступность кнопки отправки формы */
+  const [formData, setFormData] = useState<FormDataState>({
+    comment: '',
+    rating: '',
+  });
   const [isSubmitDisabled, setSubmitDisabled] = useState<boolean>(true);
+  const [isSubmitting, setSubmitting] = useState<boolean>(false); // Новое состояние
   const dispatch = useAppDispatch();
 
-  /** Обработчик отправки формы */
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    /** Создание объекта FormData из формы */
-    const formDataObject: FormData = new FormData(form);
-    /** Получение отзыва и рейтинга из данных формы */
-    const comment = formDataObject.get('comment')?.toString();
-    const reviewRating = +(formDataObject.get('rating') || 0);
+    const form = event.currentTarget;
+    const comment = formData.comment;
+    const reviewRating = Number(formData.rating);
 
     if (comment && reviewRating) {
-      /** Отправляем комментарий на сервак если всё чики бомбони */
-      dispatch(postCommentAction({ offerId, comment: { comment: comment, rating: reviewRating } }));
-    } else {
-      throw new Error('Данные формы недействительны');
+      setSubmitting(true); // Блокируем форму
+      dispatch(postCommentAction({
+        offerId,
+        comment: { comment, rating: reviewRating }
+      }))
+        .unwrap()
+        .then(() => {
+          setFormData({ comment: '', rating: '' });
+          form.reset();
+          setSubmitDisabled(true);
+        })
+        .catch(() => {
+          setSubmitDisabled(false);
+        })
+        .finally(() => {
+          setSubmitting(false); // Разблокируем форму в любом случае
+        });
     }
   }
 
   function handleChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    const { name, value } = event.target;
+    if (isSubmitting) {
+      return;
+    }
 
+    const { name, value } = event.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
 
-    const comment = (value || formData.comment || '');
-    const commentLength = comment.trim().length;
+    const isCommentValid = name === 'comment'
+      ? value.trim().length >= 50 && value.trim().length <= 300
+      : formData.comment.trim().length >= 50 && formData.comment.trim().length <= 300;
 
-    /** Короче вот этот мув (formData.comment || '') нужен чтобы тс не пиздел что что-то из этого is possibly null, в остальном это просто проверка на длину комментария */
-    const iscommentValid = (name === 'comment' ? commentLength >= 50 && commentLength <= 300 : false);
-    const isRatingValid = (name === 'rating' ? !!value : !!formData.rating);
+    const isRatingValid = name === 'rating'
+      ? !!value
+      : !!formData.rating;
 
-    setSubmitDisabled(!(iscommentValid && isRatingValid));
+    setSubmitDisabled(!(isCommentValid && isRatingValid));
   }
 
   return (
@@ -65,28 +78,31 @@ function ReviewForm({ offerId }: ReviewFormProps) {
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={(event: FormEvent<HTMLFormElement>) => handleSubmit(event)}
+      onSubmit={handleSubmit}
     >
       <label className="reviews__label form__label" htmlFor="comment">
         Your comment
       </label>
       <div className="reviews__rating-form form__rating">
-        {Array.from({ length: 5 }, (_, i) => {
-          const ratingValue = 5 - i;
+        {Array.from({ length: STARS_COUNT }, (_, i) => {
+          const ratingValue = STARS_COUNT - i;
+          const labelTitle = LABEL_TITLES[i];
           return (
             <Fragment key={ratingValue}>
               <input
                 className="form__rating-input visually-hidden"
                 name="rating"
-                defaultValue={ratingValue}
+                value={ratingValue}
                 id={`${ratingValue}-stars`}
                 type="radio"
+                checked={formData.rating === String(ratingValue)}
                 onChange={handleChange}
+                disabled={isSubmitting} // Блокировка радио-кнопок
               />
               <label
                 htmlFor={`${ratingValue}-stars`}
                 className="reviews__rating-label form__rating-label"
-                title="perfect"
+                title={labelTitle}
               >
                 <svg className="form__star-image" width={37} height={33}>
                   <use xlinkHref="#icon-star" />
@@ -102,7 +118,9 @@ function ReviewForm({ offerId }: ReviewFormProps) {
         id="comment"
         name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        value={formData.comment}
         onChange={handleChange}
+        disabled={isSubmitting} // Блокировка текстового поля
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -111,9 +129,9 @@ function ReviewForm({ offerId }: ReviewFormProps) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isSubmitDisabled}
+          disabled={isSubmitDisabled || isSubmitting} // Комбинированная блокировка кнопки
         >
-          Submit
+          {isSubmitting ? 'Sending...' : 'Submit'}
         </button>
       </div>
     </form>

@@ -15,9 +15,7 @@ function PlaceList({ offers, handleMouseOver, handleMouseout }: PlaceListProps) 
   const currentSort = useSelector(selectCurrentSort);
 
   const offersToSort: CompactOffers = structuredClone(offers);
-
-  let sortedOffers: CompactOffers | null = null;
-  sortedOffers = useMemo(() => {
+  const sortedOffers = useMemo(() => {
     if (currentSort) {
       return sortOffers(currentSort, offersToSort, offers);
     }

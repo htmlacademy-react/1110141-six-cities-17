@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { AuthorizationStatus, Cities, SortTypes } from '../const';
 
-import { changeActiveSort, changeCity, loadOfferComment, loadDetailedOffer, loadNearbyOffers, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, toggleFavoriteStatus } from './actions';
+import { changeActiveSort, changeCity, loadOfferComment, loadDetailedOffer, loadNearbyOffers, loadOfferComments, loadOffers, requireAuthorization, setError, setOffersDataLoadingStatus, setUserData, toggleFavoriteStatus, loadFavorites } from './actions';
 
 import { CompactOffers, DetailedOffer } from '../types/offers';
 import { SortElement } from '../types/sort';
@@ -12,6 +12,7 @@ import { UserData } from '../types/user-data';
 type InitialState = {
   city: Cities;
   offers: CompactOffers;
+  favoriteOffers: CompactOffers;
   detailedOffer: DetailedOffer | null;
   nearbyOffers: CompactOffers | null;
   offerComments: Comments | null;
@@ -25,6 +26,7 @@ type InitialState = {
 const initialState: InitialState = {
   city: Cities.Paris,
   offers: [],
+  favoriteOffers: [],
   detailedOffer: null,
   nearbyOffers: null,
   offerComments: [],
@@ -68,6 +70,9 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
+    .addCase(loadFavorites, (state, action) => {
+      state.favoriteOffers = action.payload;
+    })
     .addCase(loadDetailedOffer, (state, action) => {
       state.detailedOffer = action.payload;
     })
@@ -85,6 +90,10 @@ export const reducer = createReducer(initialState, (builder) => {
         }
         return offer;
       });
+
+      if (state.detailedOffer) {
+        state.detailedOffer.isFavorite = !state.detailedOffer.isFavorite;
+      }
     })
     .addCase(loadOfferComments, (state, action) => {
       state.offerComments = action.payload;

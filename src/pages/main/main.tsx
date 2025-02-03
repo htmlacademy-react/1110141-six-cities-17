@@ -54,7 +54,7 @@ function Main(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{foundPlacesCount} places to stay in {currentCity}</b>
+              <b className="places__found">{foundPlacesCount} {foundPlacesCount > 1 ? 'places' : 'place'} to stay in {currentCity}</b>
               <PlacesSorting />
               <PlaceList offers={offers} handleMouseOver={handleMouseOver} handleMouseout={handleMouseout} />
             </section>
