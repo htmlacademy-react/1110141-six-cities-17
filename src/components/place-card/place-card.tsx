@@ -6,19 +6,20 @@ import { memo } from 'react';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 
 type PlaceCardProps = {
+  isNeibourhood?: boolean | undefined;
   offer: CompactOffer;
   handleMouseOver?: (id: string) => void;
   handleMouseout?: () => void;
 }
 
-const PlaceCard = memo(({ offer, handleMouseOver, handleMouseout }: PlaceCardProps): JSX.Element => {
+const PlaceCard = memo(({ isNeibourhood, offer, handleMouseOver, handleMouseout }: PlaceCardProps): JSX.Element => {
   const { title, price, type, previewImage, isPremium, rating, id } = offer;
   const ratingStars = convertRatingToStars(rating);
   const offerLink = getOfferLink(id);
 
   return (
     <article
-      className="cities__card place-card"
+      className={`${isNeibourhood ? 'near-places__card' : 'cities__card'} place-card`}
       onMouseOver={() => handleMouseOver?.(offer.id)}
       onMouseOut={() => handleMouseout?.()}
     >

@@ -21,6 +21,7 @@ import { AuthorizationStatus } from '../../const';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button';
 
 const OFFER_IMAGES_COUNT = 6;
+const NEIBOURHOOD_OFFERS_COUNT = 3;
 
 function Offer(): JSX.Element {
   /** Хук для отправки действий в Redux */
@@ -55,7 +56,7 @@ function Offer(): JSX.Element {
 
   /** Селекторы для получения данных из Redux-хранилища */
   const currentOffer = useAppSelector((state) => state.detailedOffer);
-  const neighbourhoodOffers = useAppSelector((state) => state.nearbyOffers) || [];
+  const neighbourhoodOffers = useAppSelector((state) => state.nearbyOffers?.slice(0, NEIBOURHOOD_OFFERS_COUNT)) || [];
   const offerComments = useAppSelector((state) => state.offerComments);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
@@ -220,7 +221,7 @@ function Offer(): JSX.Element {
             </h2>
             <div className="near-places__list places__list">
               {
-                neighbourhoodOffers.map((offer) => <PlaceCard key={offer.id} offer={offer} />)
+                neighbourhoodOffers.map((offer) => <PlaceCard isNeibourhood key={offer.id} offer={offer} />)
               }
             </div>
           </section>
