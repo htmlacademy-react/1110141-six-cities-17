@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { postFavoriteAction } from '../../store/api-actions';
+import { fetchFavoritesAction, postFavoriteAction } from '../../store/api-actions';
 
 import { CompactOffer, DetailedOffer } from '../../types/offers';
 
@@ -22,6 +22,12 @@ function BookmarkButton({ offer, isOfferBookmark }: BookmarkButtonProps) {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const navigate = useNavigate();
 
+  const toggleOfferAsFavorite = async () => {
+    await dispatch(postFavoriteAction({ offerId: offer.id, status: offer.isFavorite }));
+    dispatch(fetchFavoritesAction());
+    setButtonActive(!offer.isFavorite);
+  };
+
   function handleBookmarkClick(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
 
@@ -29,8 +35,7 @@ function BookmarkButton({ offer, isOfferBookmark }: BookmarkButtonProps) {
       navigate(AppRoute.Login);
     }
 
-    dispatch(postFavoriteAction({ offerId: offer.id, status: offer.isFavorite }));
-    setButtonActive(!offer.isFavorite);
+    toggleOfferAsFavorite();
   }
 
   const buttonData = {
